@@ -1,0 +1,34 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+    - 'master'
+    paths:
+    - 'PsLogLite\**'
+  pull_request:
+    branches:
+    - 'master'
+    paths:
+    - 'PsLogLite\**'
+
+jobs:
+  pester:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run all Pester tests
+      env:
+        RUNNER_TEMP: ${{ runner.temp }}
+      run: |
+        Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+        Install-Module Pester -MinimumVersion 4.0.0 -Force -SkipPublisherCheck
+        $CodecovTargets = Get-ChildItem -Path .\PsLogLite -Recurse -File -Include '*.ps1','*.psm1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
+        Import-Module .\PsLogLite
+        Invoke-Pester -Script .\Tests -Strict -CodeCoverage $CodecovTargets -CodeCoverageOutputFile ".\PsLogLite.coverage.xml"
+      shell: powershell
+    - name: Upload coverage to Codecov
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: bash <(curl -s https://codecov.io/bash)
+      shell: bash

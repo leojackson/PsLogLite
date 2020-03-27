@@ -1,0 +1,31 @@
+codecov:
+  strict_yaml_branch: master
+coverage:
+  range: 80..100
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 0%
+        base: auto
+        informational: true
+    patch:
+      default:
+        target: auto
+        threshold: 0%
+        base: auto
+        branches:
+          - master
+        if_no_uploads: error
+        if_not_found: success
+        if_ci_failed: error
+        only_pulls: false
+        informational: true
+    changes: off
+comment:
+  layout: "reach, diff, files"
+  branches: master
+ignore:
+  - ".vscode"
+  - "**/.vscode"
+  - "**/*.Tests.ps1"
