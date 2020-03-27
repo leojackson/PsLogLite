@@ -1,0 +1,8 @@
+TOPIC
+    Logger
+
+SHORT DESCRIPTION
+    Logger is a lightweight logging utility designed as a wrapper for the Write-* built-in command set.
+
+LONG DESCRIPTION
+    Logger is a lightweight logging utility designed as a wrapper for the Write-* built-in command set.
