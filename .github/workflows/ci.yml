@@ -4,8 +4,19 @@ on:
   push:
     branches: [ master ]
     paths:
+      - 'PsLogLite/**.ps1'
+      - 'PsLogLite/**.psm1'
+      - 'PsLogLite/**.psd1'
+      - 'Tests/**.Tests.ps1'
+      - 'codecov.yml'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'PsLogLite/**.ps1'
+      - 'PsLogLite/**.psm1'
+      - 'PsLogLite/**.psd1'
+      - 'Tests/**.Tests.ps1'
 
 jobs:
   pester:
