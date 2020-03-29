@@ -6,11 +6,13 @@ on:
     - 'master'
     paths:
     - 'PsLogLite\**'
+    - '!PsLogLite\**\*.txt'
   pull_request:
     branches:
     - 'master'
     paths:
     - 'PsLogLite\**'
+    - '!PsLogLite\**\*.txt'
 
 jobs:
   pester:
