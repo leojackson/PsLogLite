@@ -68,7 +68,7 @@ param(
     [string]
     $Function,
 
-    [Parameter(Mandatory=$True,Position=3)]
+    [Parameter(Mandatory=$True,Position=2)]
     [Alias('Facility','Type')]
     [PsLogLiteLevel]
     $Level

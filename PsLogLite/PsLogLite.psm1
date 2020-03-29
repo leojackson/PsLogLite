@@ -1,7 +1,8 @@
-New-Variable -Name "LogPrefix" -Scope Script -Option Constant -Visibility Private -Value ([pscustomobject]@{
+New-Variable -Name "LogPrefix" -Scope Script -Option Constant -Visibility Private -Force -Value ([pscustomobject]@{
     [PsLogLiteLevel]::Debug = "DEBUG"
     [PsLogLiteLevel]::Verbose = "VERBOSE"
     [PsLogLiteLevel]::Information = "INFO"
+    [PsLogLiteLevel]::Output = "OUTPUT"
     [PsLogLiteLevel]::Host = "HOST"
     [PsLogLiteLevel]::Warning = "WARN"
     [PsLogLiteLevel]::Error = "ERROR"
@@ -9,10 +10,11 @@ New-Variable -Name "LogPrefix" -Scope Script -Option Constant -Visibility Privat
     [PsLogLiteLevel]::Meta = "META"
 })
 
-New-Variable -Name "LogPipelineMap" -Scope Script -Option Constant -Visibility Private -Value @{
+New-Variable -Name "LogPipelineMap" -Scope Script -Option Constant -Visibility Private -Force -Value @{
     [PsLogLiteLevel]::Debug = [System.Management.Automation.Runspaces.PipelineResultTypes]::Debug
     [PsLogLiteLevel]::Verbose = [System.Management.Automation.Runspaces.PipelineResultTypes]::Verbose
     [PsLogLiteLevel]::Information = [System.Management.Automation.Runspaces.PipelineResultTypes]::Information
+    [PsLogLiteLevel]::Output = [System.Management.Automation.Runspaces.PipelineResultTypes]::Output
     [PsLogLiteLevel]::Host = [System.Management.Automation.Runspaces.PipelineResultTypes]::Output
     [PsLogLiteLevel]::Warning = [System.Management.Automation.Runspaces.PipelineResultTypes]::Warning
     [PsLogLiteLevel]::Error = [System.Management.Automation.Runspaces.PipelineResultTypes]::Error
@@ -24,7 +26,7 @@ New-Variable -Name "ModuleName" -Scope Script -Option Constant -Visibility Priva
 New-Variable -Name "DefaultLogFileName" -Scope Script -Option Constant -Visibility Private -Value "$Script:ModuleName.module.log"
 New-Variable -Name "DefaultLogFilePath" -Scope Script -Option Constant -Visibility Private -Value "$Env:TEMP\$Script:DefaultLogFileName"
 New-Variable -Name "LogFilePath" -Scope Script -Visibility Private -Value $Script:DefaultLogFilePath
-New-Variable -Name "DefaultLogLevel" -Scope Script -Option Constant -Visibility Private -Value "Host"
+New-Variable -Name "DefaultLogLevel" -Scope Script -Option Constant -Visibility Private -Value "Output"
 New-Variable -Name "LogLevel" -Scope Script -Visibility Private -Value $Script:DefaultLogLevel
 
 $Public = @(Get-ChildItem -Path "$PSScriptRoot\Public" -Filter *.ps1 -Recurse -ErrorAction SilentlyContinue)
@@ -40,12 +42,12 @@ foreach ($Import in @($Public + $Private)) {
     try {
         . $Import.FullName
     } catch {
-        Write-Error -Message "Failed to import function $($Import.FullName): _"
+        Write-Error -Message "Failed to import function $($Import.FullName): $_"
     }
     $p++
 }
 
-Export-ModuleMember -Function $Public.BaseName
+Export-ModuleMember -Function $Public.BaseName -Alias "Get-LogFile","Reset-LogFile","Set-LogFile"
 
 Write-Log -Message "Module $Script:ModuleName successfully loaded" -Function $((Get-PSCallStack)[1].Command) -Level 'Meta'
 $MyInvocation.MyCommand.ScriptBlock.Module.OnRemove = {
