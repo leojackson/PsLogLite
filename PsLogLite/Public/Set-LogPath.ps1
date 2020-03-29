@@ -71,5 +71,3 @@ Process {
 End {}
 
 } # Function
-
-Set-Alias -Name "Set-LogFile" -Value "Set-LogPath"
