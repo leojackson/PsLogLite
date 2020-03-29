@@ -17,7 +17,7 @@ Write-Verbose -Message "Verbose Message"
 Write-Debug -Message "Debug Message"
 ```
 ...results in log file entries similar to these:
-```
+```text
 03/01/2020 00:00:00.000 - Set-LogLevel - META - Log level changed from Output to Debug
 03/01/2020 00:00:00.000 - (root) - ERROR - Error Message
 03/01/2020 00:00:00.000 - (root) - WARN - Warning Message
