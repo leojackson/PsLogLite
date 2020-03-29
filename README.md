@@ -1,6 +1,8 @@
 # PsLogLite
 PsLogLite is a lightweight procedural logging utility for use with any PowerShell script. It works by using proxy functions to override all default Write-* cmdlets with script functions that log their input.
 
+![Continuous Integration](https://github.com/leojackson/PsLogLite/workflows/Continuous%20Integration/badge.svg) [![codecov](https://codecov.io/gh/leojackson/psloglite/branch/master/graph/badge.svg)](https://codecov.io/gh/leojackson/psloglite) [![CodeFactor](https://www.codefactor.io/repository/github/leojackson/psloglite/badge)](https://www.codefactor.io/repository/github/leojackson/psloglite)
+
 ## Usage
 This code:
 ```powershell
