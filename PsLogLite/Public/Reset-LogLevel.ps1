@@ -35,7 +35,7 @@ Process {
     If($PSCmdlet.ShouldProcess($Script:DefaultLogLevel)) {
         Set-LogLevel -Level $Script:DefaultLogLevel
         
-        If($Silent.IsPresent -is -not $True) {
+        If(-not $Silent.IsPresent) {
             # Writing this before and after, so both log files will have the message
             Write-Log -Message "Log level reset from $PreChangeLevel to $Script:DefaultLogLevel (default)" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
         }
