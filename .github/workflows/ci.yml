@@ -18,7 +18,7 @@ jobs:
       run: |
         Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
         Install-Module Pester -MinimumVersion 4.0.0 -Force -SkipPublisherCheck
-        $CodecovTargets = Get-ChildItem -Path .\PsLogLite -Recurse -File -Include '*.ps1','*.psm1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
+        $CodecovTargets = Get-ChildItem -Path .\PsLogLite -Recurse -File -Include '*.ps1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
         Import-Module .\PsLogLite
         Invoke-Pester -Script .\Tests -Strict -CodeCoverage $CodecovTargets -CodeCoverageOutputFile ".\PsLogLite.coverage.xml"
       shell: powershell
