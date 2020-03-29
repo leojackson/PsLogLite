@@ -48,5 +48,3 @@ Process {
 } # Process
 
 } # Function
-
-Set-Alias -Name "Reset-LogFile" -Value "Reset-LogPath"

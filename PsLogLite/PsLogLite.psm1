@@ -47,6 +47,11 @@ foreach ($Import in @($Public + $Private)) {
     $p++
 }
 
+# Set aliases
+Set-Alias -Name "Set-LogFile" -Value "Set-LogPath"
+Set-Alias -Name "Reset-LogFile" -Value "Reset-LogPath"
+Set-Alias -Name "Get-LogFile" -Value "Get-LogPath"
+
 Export-ModuleMember -Function $Public.BaseName -Alias "Get-LogFile","Reset-LogFile","Set-LogFile"
 
 Write-Log -Message "Module $Script:ModuleName successfully loaded" -Function $((Get-PSCallStack)[1].Command) -Level 'Meta'

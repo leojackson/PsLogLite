@@ -27,5 +27,3 @@ Process {
 } # Process
 
 } # Function
-
-Set-Alias -Name "Get-LogFile" -Value "Get-LogPath"
