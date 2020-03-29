@@ -2,15 +2,10 @@ name: Continuous Integration
 
 on:
   push:
-    branches:
-    - 'master'
+    branches: [ master ]
     paths:
-    - 'PsLogLite\**'
   pull_request:
-    branches:
-    - 'master'
-    paths:
-    - 'PsLogLite\**'
+    branches: [ master ]
 
 jobs:
   pester:
