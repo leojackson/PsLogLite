@@ -23,6 +23,10 @@ Describe -Name "Write-* functions" {
             Write-Debug -Message $null | Should -BeNullOrEmpty
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*CRIT - FAILED TO LOG DEBUG MESSAGE*"
         }
+        It "resets the output buffer when -OutBuffer is specified" {
+            Write-Debug -Message "TestBuffer" -OutBuffer 2
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*DEBUG - TestBuffer*"
+        }
         Reset-LogPath
     }
     
@@ -33,13 +37,30 @@ Describe -Name "Write-* functions" {
         It "writes only to the Error stream" {
             Write-Error -Message "This is an error message." -ErrorAction Continue 2>&1 | Should -BeLikeExactly "This is an error message."
         }
-        It "writes to a log file" {
+        It "writes to a log file when -Message specified" {
             Write-Error -Message "Test" -ErrorAction SilentlyContinue | Out-Null
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*ERROR - Test*"
+        }
+        It "writes to a log file when -Exception specified" {
+            $Except = [System.Exception]::new("Test")
+            $Except.Source = "PsLogLite"
+            Write-Error -Exception $Except -ErrorAction SilentlyContinue | Out-Null
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*ERROR - Test*"
+        }
+        It "writes to a log file when -ErrorRecord specified" {
+            $Except = [System.Exception]::new("Test")
+            $Except.Source = "PsLogLite"
+            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new($Except,"TestError","WriteError",$null)
+            Write-Error -ErrorRecord $ErrorRecord -ErrorAction SilentlyContinue | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*ERROR - Test*"
         }
         It "fails when no message is provided" {
             Write-Error -Message $null -ErrorAction SilentlyContinue | Should -BeNullOrEmpty
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*CRIT - FAILED TO LOG ERROR MESSAGE*"
+        }
+        It "resets the output buffer when -OutBuffer is specified" {
+            Write-Error -Message "TestBuffer" -OutBuffer 2 -ErrorAction SilentlyContinue
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*ERROR - TestBuffer*"
         }
         Reset-LogPath
     }
@@ -59,6 +80,10 @@ Describe -Name "Write-* functions" {
             Write-Host -Object $null -ErrorAction SilentlyContinue | Should -BeNullOrEmpty
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*CRIT - FAILED TO LOG HOST MESSAGE*"
         }
+        It "resets the output buffer when -OutBuffer is specified" {
+            Write-Host -Object "TestBuffer" -OutBuffer 2 6>&1 | Out-Null
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*HOST - TestBuffer*"
+        }
         Reset-LogPath
     }
 
@@ -77,6 +102,10 @@ Describe -Name "Write-* functions" {
             Write-Information -MessageData "" | Should -BeNullOrEmpty
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*CRIT - FAILED TO LOG INFO MESSAGE*"
         }
+        It "resets the output buffer when -OutBuffer is specified" {
+            Write-Information -MessageData "TestBuffer" -OutBuffer 2 6>&1 | Out-Null
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*INFO - TestBuffer*"
+        }
         Reset-LogPath
     }
 
@@ -94,6 +123,10 @@ Describe -Name "Write-* functions" {
         It "fails when no message is provided" {
             Write-Output -InputObject $null | Should -BeNullOrEmpty
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*CRIT - FAILED TO LOG OUTPUT MESSAGE*"
+        }
+        It "resets the output buffer when -OutBuffer is specified" {
+            Write-Output -InputObject "TestBuffer" -OutBuffer 2 | Out-Null
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*OUTPUT - TestBuffer*"
         }
         Reset-LogPath
     }
@@ -116,6 +149,10 @@ Describe -Name "Write-* functions" {
             Write-Verbose -Message $null | Should -BeNullOrEmpty
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*CRIT - FAILED TO LOG VERBOSE MESSAGE*"
         }
+        It "resets the output buffer when -OutBuffer is specified" {
+            Write-Verbose -Message "TestBuffer" -OutBuffer 2 | Out-Null
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*VERBOSE - TestBuffer*"
+        }
         Reset-LogPath
     }
 
@@ -134,8 +171,41 @@ Describe -Name "Write-* functions" {
             Write-Warning -Message $null -WarningAction SilentlyContinue | Should -BeNullOrEmpty
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*CRIT - FAILED TO LOG WARN MESSAGE*"
         }
+        It "resets the output buffer when -OutBuffer is specified" {
+            Write-Warning -Message "TestBuffer" -OutBuffer 2 3>&1 | Out-Null
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*WARN - TestBuffer*"
+        }
         Reset-LogPath
     }
 
+    Context "Write-Log Exceptions" {
+        It "redirects to the default log file path when access is denied to custom log file" {
+            # Uses Write-Information as a pass-thru to Write-Log
+            Reset-LogPath -Silent
+            $CustomLogFile = "$TestLogPath\ReadOnlyLogTest.log"
+            {Write-Information -MessageData "Test #1"} | Should -Not -Throw
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*INFO - Test #1*"
+            Set-LogPath -Path $CustomLogFile
+            If(-not $(Test-Path $CustomLogFile)) {
+                New-Item -Path $CustomLogFile -ItemType File
+            }
+            Set-ItemProperty -Path $CustomLogFile -Name IsReadOnly -Value $True
+            Write-Information -MessageData "Test #2" 3>&1 | Should -BeLike "*Unable to write to log path $CustomLogFile, resetting to default path*"
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*INFO - Test #2*"
+        }
+        It "throws an exception when the default log file is read-only" {
+            # Uses Write-Information as a pass-thru to Write-Log
+            Reset-LogPath -Silent
+            {Write-Information -MessageData "Test #3"} | Should -Not -Throw
+            Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*INFO - Test #3*"
+            Set-ItemProperty -Path $(Get-LogPath) -Name IsReadOnly -Value $True
+            {Write-Information -MessageData "Test #4" 3>&1 | Out-Null} | Should -Throw
+            # Resetting default log path to writeable
+            Set-ItemProperty -Path $(Get-LogPath) -Name IsReadOnly -Value $False
+        }
+    }
+
+    Reset-LogPath
+    Reset-LogLevel
     Remove-Item -Path $TestLogPath -Force -Recurse
 }
