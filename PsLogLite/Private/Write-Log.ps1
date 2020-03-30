@@ -101,7 +101,16 @@ Process {
         Catch [System.UnauthorizedAccessException] {
             Microsoft.PowerShell.Utility\Write-Warning -Message "Unable to write to log path $Script:LogFilePath, resetting to default path"
             Reset-LogPath -Silent   # Setting this to Silent to prevent an endless loop
-            "$Date - $Function - $Prefix - $Message" | Out-File @OutFileParams
+            Try {
+                If(-not $(Test-Path -Path $Script:LogFilePath)) {
+                    New-Item -Path $Script:LogFilePath -ItemType File -Force
+                }
+                $OutFileParams.FilePath = $Script:LogFilePath
+                "$Date - $Function - $Prefix - $Message" | Out-File @OutFileParams
+            }
+            Catch {
+                Throw "Unable to write log to file $Script:LogFilePath after log path reset: $_"
+            }
         }
         Catch {
             Throw "Unable to write log to file $Script:LogFilePath: $_"
