@@ -1,0 +1,1 @@
+__PsLogLite__ is released under the [MIT License](https://github.com/leojackson/PsLogLite/blob/master/LICENSE).
