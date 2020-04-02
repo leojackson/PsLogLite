@@ -11,13 +11,13 @@ The `Get-LogPath` function returns the current log file path of the module. This
 
 ## Examples
 
-### Example1 1: Return the current log file path
+### Example 1: Return the current log file path
 
 ```powershell
 Get-LogPath
 ```
-
-```Output
+Output:
+```text
 C:\Users\username\AppData\Local\Temp\PsLogLite.module.log
 ```
 
@@ -33,10 +33,16 @@ None
 
 ## Outputs
 
-### System.String
+__System.String__
 
 `Get-LogPath` returns a string representation of the current log file path.
 
 ## Notes
 
 * `Get-LogPath` can be run using the built-in alias `Get-LogFile`.
+
+## Related Links
+
+[Reset-LogPath](./Reset-LogPath.md)
+
+[Set-LogPath](./Set-LogPath.md)

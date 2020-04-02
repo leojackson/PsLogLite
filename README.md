@@ -28,3 +28,9 @@ Write-Debug -Message "Debug Message"
 03/01/2020 00:00:00.000 - (root) - DEBUG - Debug Message
 ```
 By default, the log is located at `%TEMP%\PsLogLite.module.log`, though this can be overridden with the `Set-LogPath` function.
+
+## License
+
+__PsLogLite__ is released under the MIT License.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)

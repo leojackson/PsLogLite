@@ -127,10 +127,16 @@ Accept wildcard characters: False
 
 ## Inputs
 
-### System.String
+__System.String__
 
 A string representing the log file path to set.
 
 ## Outputs
 
 None
+
+## Related Links
+
+[Get-LogPath](./Get-LogPath.md)
+
+[Reset-LogPath](./Reset-LogPath.md)

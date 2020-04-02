@@ -77,3 +77,9 @@ None
 ## Outputs
 
 None
+
+## Related Links
+
+[Get-LogLevel](./Get-LogLevel.md)
+
+[Set-LogLevel](./Set-LogLevel.md)

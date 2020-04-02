@@ -82,3 +82,9 @@ None
 ## Notes
 
 * `Reset-LogPath` can be run using the built-in alias `Reset-LogFile`.
+
+## Related Links
+
+[Get-LogPath](./Get-LogPath.md)
+
+[Set-LogPath](./Set-LogPath.md)

@@ -1,21 +1,38 @@
-site_name: PsLogLite
+site_name: 'PsLogLite'
 site_url: https://leojackson.github.io/PsLogLite
 site_description: A lightweight, procedural logging utility for use with any PowerShell script.
 site_author: Leo Jackson
-
+#edit_uri: ''
 repo_url: https://github.com/leojackson/PsLogLite
+copyright: 'Copyright &copy; 2020 Leo Jackson'
 
 theme:
-    name: mkdocs
-    highlightjs: true
-    hljs_languages:
-        - powershell
-        - yaml
+    name: material
+    feature:
+        tabs: true
+    logo:
+        icon: "&#128209;"
+    font:
+        text: Sen
+        code: Source Code Pro
+
+markdown_extensions:
+    - admonition
+    - codehilite
+    - footnotes
+    - meta
+    - pymdownx.details
+    - toc:
+        permalink: true
+
+plugins:
+    - search
+    - git-revision-date-localized:
+        type: timeago
 
 nav:
-    - Home: index.md
-    - Usage: usage.md
-    - Function Reference:
+    - PsLogLite: index.md
+    - Functions:
         - Get-LogLevel: 'functions/Get-LogLevel.md'
         - Get-LogPath: 'functions/Get-LogPath.md'
         - Reset-LogLevel: 'functions/Reset-LogLevel.md'
@@ -29,5 +46,15 @@ nav:
         - Write-Output: 'functions/Write-Output.md'
         - Write-Verbose: 'functions/Write-Verbose.md'
         - Write-Warning: 'functions/Write-Warning.md'
-    - License: license.md
     - Changelog: CHANGELOG.md
+    - License: license.md
+
+extra_css:
+    - css/extra.css
+
+extra:
+    social:
+        - type: globe
+          link: https://leojackson.github.io
+        - type: github
+          link: https://github.com/leojackson

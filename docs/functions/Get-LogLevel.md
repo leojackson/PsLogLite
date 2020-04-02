@@ -11,13 +11,13 @@ The `Get-LogLevel` function returns the current log level of the module. This is
 
 ## Examples
 
-### Example1 1: Return the current log level
+### Example 1: Return the current log level
 
 ```powershell
 Get-LogLevel
 ```
-
-```Output
+Output:
+```text
 Information
 ```
 
@@ -33,6 +33,12 @@ None
 
 ## Outputs
 
-### System.String
+__System.String__
 
 `Get-LogLevel` returns a string representation of the current log level.
+
+## Related Links
+
+[Reset-LogLevel](./Reset-LogLevel.md)
+
+[Set-LogLevel](./Set-LogLevel.md)

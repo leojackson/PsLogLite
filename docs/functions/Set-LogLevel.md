@@ -88,10 +88,16 @@ Accept wildcard characters: False
 
 ## Inputs
 
-### System.String
+__System.String__
 
 A string representing the log level to set.
 
 ## Outputs
 
 None
+
+## Related Links
+
+[Get-LogLevel](./Get-LogLevel.md)
+
+[Reset-LogLevel](./Reset-LogLevel.md)
