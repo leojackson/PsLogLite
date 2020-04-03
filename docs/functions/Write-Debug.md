@@ -27,8 +27,6 @@ Inside that wrapper, the function sends the content of the `-Message` parameter 
 
 [Write-Output](./Write-Output.md)
 
-[Write-Progress](./Write-Progress.md)
-
 [Write-Verbose](./Write-Verbose.md)
 
 [Write-Warning](./Write-Warning.md)

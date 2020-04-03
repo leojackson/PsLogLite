@@ -46,8 +46,13 @@ nav:
         - Write-Output: 'functions/Write-Output.md'
         - Write-Verbose: 'functions/Write-Verbose.md'
         - Write-Warning: 'functions/Write-Warning.md'
-    - Changelog: CHANGELOG.md
-    - License: license.md
+    - Licenses:
+        - Overview: license.md
+        - Source Code: license/source.md
+        - Documentation: license/documentation.md
+        - Microsoft: license/microsoft.md
+    - Changelog:
+        - Changelog: CHANGELOG.md
 
 extra_css:
     - css/extra.css

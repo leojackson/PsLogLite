@@ -1,0 +1,21 @@
+name: Build Documentation
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'docs/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'docs/**'
+
+jobs:
+  mkdocs-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prepare environment
+      run: |
+        pip install -y mkdocs mkdocs-material mkdocs-git-revision-date-localized-plugin Markdown markdown-include MarkupSafe pymdown-extensions PyYAML
+        

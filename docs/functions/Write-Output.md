@@ -30,8 +30,6 @@ Inside that wrapper, the function sends the content of the `-InputObject` parame
 
 [Write-Debug](./Write-Debug.md)
 
-[Write-Progress](./Write-Progress.md)
-
 [Write-Verbose](./Write-Verbose.md)
 
 [Write-Warning](./Write-Warning.md)

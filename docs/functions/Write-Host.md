@@ -31,8 +31,6 @@ Inside that wrapper, the function sends the content of the `-Object` parameter a
 
 [Write-Output](./Write-Output.md)
 
-[Write-Progress](./Write-Progress.md)
-
 [Write-Verbose](./Write-Verbose.md)
 
 [Write-Warning](./Write-Warning.md)
