@@ -10,7 +10,7 @@ New-Variable -Name "LogPrefix" -Scope Script -Option Constant -Visibility Privat
     [PsLogLiteLevel]::Meta = "META"
 })
 
-New-Variable -Name "LogPipelineMap" -Scope Script -Option Constant -Visibility Private -Force -Value @{
+New-Variable -Name "LogPipelineMap" -Scope Script -Option Constant -Visibility Private -Force -Value ([pscustomobject]@{
     [PsLogLiteLevel]::Debug = [System.Management.Automation.Runspaces.PipelineResultTypes]::Debug
     [PsLogLiteLevel]::Verbose = [System.Management.Automation.Runspaces.PipelineResultTypes]::Verbose
     [PsLogLiteLevel]::Information = [System.Management.Automation.Runspaces.PipelineResultTypes]::Information
@@ -20,14 +20,27 @@ New-Variable -Name "LogPipelineMap" -Scope Script -Option Constant -Visibility P
     [PsLogLiteLevel]::Error = [System.Management.Automation.Runspaces.PipelineResultTypes]::Error
     [PsLogLiteLevel]::Critical = [System.Management.Automation.Runspaces.PipelineResultTypes]::Error
     [PsLogLiteLevel]::Meta = [System.Management.Automation.Runspaces.PipelineResultTypes]::Output
-}
-
+})
 New-Variable -Name "ModuleName" -Scope Script -Option Constant -Visibility Private -Value ($MyInvocation.MyCommand.Name -split "\.")[0]
 New-Variable -Name "DefaultLogFileName" -Scope Script -Option Constant -Visibility Private -Value "$Script:ModuleName.module.log"
 New-Variable -Name "DefaultLogFilePath" -Scope Script -Option Constant -Visibility Private -Value "$Env:TEMP\$Script:DefaultLogFileName"
-New-Variable -Name "LogFilePath" -Scope Script -Visibility Private -Value $Script:DefaultLogFilePath
 New-Variable -Name "DefaultLogLevel" -Scope Script -Option Constant -Visibility Private -Value "Output"
-New-Variable -Name "LogLevel" -Scope Script -Visibility Private -Value $Script:DefaultLogLevel
+New-Variable -Name "ConfigFile" -Scope Script -Option Constant -Visibility Private -Value "$ENV:APPDATA\$Script:ModuleName\config.json"
+
+# If config file hasn't been created,
+If(-not (Test-Path $Script:ConfigFile -PathType Leaf)) { 
+    @"
+{
+    "LogLevel":"$Script:DefaultLogLevel",
+    "LogFileName":"$Script:DefaultLogFileName",
+    "LogFilePath":"$Script:DefaultLogFilePath"
+}
+"@ | Out-File -FilePath $Script:ConfigFile -Force
+}
+New-Variable -Name "Config" -Scope Script -Visibility Private -Value $(Get-Content -Raw -Path $Script:ConfigFile | ConvertFrom-Json | .\Scripts\ConfigImporter.ps1)
+
+#New-Variable -Name "LogFilePath" -Scope Script -Visibility Private -Value $Script:Config.LogFilePath
+#New-Variable -Name "LogLevel" -Scope Script -Visibility Private -Value $Script:Config.LogLevel
 
 $Public = @(Get-ChildItem -Path "$PSScriptRoot\Public" -Filter *.ps1 -Recurse -ErrorAction SilentlyContinue)
 $Private = @(Get-ChildItem -Path "$PSScriptRoot\Private" -Filter *.ps1 -Recurse -ErrorAction SilentlyContinue)

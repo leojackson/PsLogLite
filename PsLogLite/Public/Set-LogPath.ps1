@@ -25,7 +25,10 @@ System.String
 param(
     [Parameter(Mandatory=$True,Position=0,ValueFromPipeline,ValueFromPipelineByPropertyName)]
     [string]
-    $Path
+    $Path,
+
+    [switch]
+    $Silent
 ) # param
 
 Begin {
@@ -58,13 +61,16 @@ Begin {
 
 Process {
     If($PSCmdlet.ShouldProcess($Path)) {
-        # Writing this before and after, so both log files will have the message
-        Write-Log -Message "Log path changed from $PreChangePath to $Path" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
+        If(-not $Silent.IsPresent) {
+            # Writing this before and after, so both log files will have the message
+            Write-Log -Message "Log path changed from $PreChangePath to $Path" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
+        }
+        $Script:Config.LogFilePath = $Path
 
-        $Script:LogFilePath = $Path
-
-        # Writing this before and after, so both log files will have the message
-        Write-Log -Message "Log path changed from $PreChangePath to $Path" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
+        If(-not $Silent.IsPresent) {
+            # Writing this before and after, so both log files will have the message
+            Write-Log -Message "Log path changed from $PreChangePath to $Path" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
+        }
     }
 } # Process
 

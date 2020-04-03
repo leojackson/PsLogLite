@@ -38,7 +38,7 @@ Process {
             Write-Log -Message "Log path reset from $PreChangePath to $($Script:DefaultLogFilePath) (default)" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
         }
 
-        Set-LogPath -Path $Script:DefaultLogFilePath
+        Set-LogPath -Path $Script:DefaultLogFilePath -Silent:$($Silent.IsPresent)
 
         If(-not $Silent.IsPresent) {
             # Writing this before and after, so both log files will have the message
