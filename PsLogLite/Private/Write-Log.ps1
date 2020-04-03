@@ -78,7 +78,7 @@ Begin {
     $Date = Get-Date -Format "MM/dd/yyyy HH:mm:ss.fff"
 
     $OutFileParams = @{
-        FilePath = $Script:LogFilePath
+        FilePath = $Script:Config.LogFilePath
         Append = $True
         NoClobber = $True
     }
@@ -91,15 +91,15 @@ Begin {
 } # Begin
 
 Process {
-    If($Level -ge $Script:LogLevel -and $PSCmdlet.ShouldProcess($Message)) {
+    If($Level -ge $Script:Config.LogLevel -and $PSCmdlet.ShouldProcess($Message)) {
         Try {
-            If(-not $(Test-Path -Path $Script:LogFilePath)) {
-                New-Item -Path $Script:LogFilePath -ItemType File -Force
+            If(-not $(Test-Path -Path $Script:Config.LogFilePath)) {
+                New-Item -Path $Script:Config.LogFilePath -ItemType File -Force
             }
             "$Date - $Function - $Prefix - $Message" | Out-File @OutFileParams
         }
         Catch [System.UnauthorizedAccessException] {
-            Microsoft.PowerShell.Utility\Write-Warning -Message "Unable to write to log path $Script:LogFilePath, resetting to default path"
+            Microsoft.PowerShell.Utility\Write-Warning -Message "Unable to write to log path $Script:Config.LogFilePath, resetting to default path"
             Reset-LogPath -Silent   # Setting this to Silent to prevent an endless loop
             Try {
                 If(-not $(Test-Path -Path $Script:LogFilePath)) {
@@ -113,7 +113,7 @@ Process {
             }
         }
         Catch {
-            Throw "Unable to write log to file $Script:LogFilePath: $_"
+            Throw "Unable to write log to file $Script:Config.LogFilePath: $_"
         }
     }
 } # Process

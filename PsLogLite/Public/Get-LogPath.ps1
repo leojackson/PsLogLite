@@ -23,7 +23,7 @@ System.String
 param()
 
 Process {
-    Return $Script:LogFilePath
+    Return $Script:Config.LogFilePath
 } # Process
 
 } # Function
