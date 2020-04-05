@@ -32,6 +32,7 @@ plugins:
 
 nav:
     - PsLogLite: index.md
+    - Usage: usage.md
     - Functions:
         - Get-LogLevel: 'functions/Get-LogLevel.md'
         - Get-LogPath: 'functions/Get-LogPath.md'
