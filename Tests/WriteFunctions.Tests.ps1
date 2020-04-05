@@ -195,13 +195,18 @@ Describe -Name "Write-* functions" {
             Write-Information -MessageData "Test #2" 3>&1 | Should -BeLike "*Unable to write to log path $CustomLogFile, resetting to default path*"
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*INFO - Test #2*"
         }
-        Try {
+
+        # Resetting the environment after the last test
+        If(Test-Path -Path $CustomLogFile) {
             Set-ItemProperty -Path $CustomLogFile -Name IsReadOnly -Value $False
             Set-LogPath -Path $CustomLogFile
+        }
+        If((Test-Path -Path $DefaultLogPath) -and (Test-Path -Path ($DefaultLogPath -replace '\.log$','.temp.log'))) {
             Remove-Item -Path $DefaultLogPath -Force
             Rename-Item -Path ($DefaultLogPath -replace '\.log$','.temp.log') -NewName $DefaultLogPath -Force
-            Reset-LogPath
-        } Catch {}
+        }
+        Reset-LogPath
+        
         It "throws an exception when the default log file is read-only" {
             # Uses Write-Information as a pass-thru to Write-Log
             Reset-LogPath -Silent
