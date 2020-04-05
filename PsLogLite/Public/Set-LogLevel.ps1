@@ -47,7 +47,7 @@ Begin {
 
 Process {
     If($PSCmdlet.ShouldProcess($Level)) {
-        $Script:LogLevel = $Level
+        $Script:Config.LogLevel = $Level
         Write-Log -Message "Log level changed from $PreChangeLevel to $Level" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
     }
 } # Process

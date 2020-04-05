@@ -65,7 +65,7 @@ Process {
             # Writing this before and after, so both log files will have the message
             Write-Log -Message "Log path changed from $PreChangePath to $Path" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
         }
-        $Script:LogFilePath = $Path
+        $Script:Config.LogFilePath = $Path
 
         If(-not $Silent.IsPresent) {
             # Writing this before and after, so both log files will have the message
