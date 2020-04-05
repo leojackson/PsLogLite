@@ -28,16 +28,15 @@ New-Variable -Name "DefaultLogLevel" -Scope Script -Option Constant -Visibility 
 New-Variable -Name "ConfigFile" -Scope Script -Option Constant -Visibility Private -Value "$ENV:APPDATA\$Script:ModuleName\config.json"
 
 # If config file hasn't been created,
-If(-not (Test-Path $Script:ConfigFile -PathType Leaf)) { 
-    @"
-{
-    "LogLevel":"$Script:DefaultLogLevel",
-    "LogFileName":"$Script:DefaultLogFileName",
-    "LogFilePath":"$Script:DefaultLogFilePath"
+If(-not (Test-Path -Path $Script:ConfigFile -PathType Leaf)) { 
+    New-Item -Path $Script:ConfigFile -ItemType File -Force
+    @{
+        LogLevel="$Script:DefaultLogLevel"
+        LogFileName="$Script:DefaultLogFileName"
+        LogFilePath="$Script:DefaultLogFilePath"
+    } | ConvertTo-Json | Out-File -FilePath $Script:ConfigFile -Force
 }
-"@ | Out-File -FilePath $Script:ConfigFile -Force
-}
-New-Variable -Name "Config" -Scope Script -Visibility Private -Value $(Get-Content -Raw -Path $Script:ConfigFile | ConvertFrom-Json | .\Scripts\ConfigImporter.ps1)
+New-Variable -Name "Config" -Scope Script -Visibility Private -Value $(Get-Content -Raw -Path $Script:ConfigFile | ConvertFrom-Json | & "$PSScriptRoot\Scripts\ConfigImporter.ps1")
 
 #New-Variable -Name "LogFilePath" -Scope Script -Visibility Private -Value $Script:Config.LogFilePath
 #New-Variable -Name "LogLevel" -Scope Script -Visibility Private -Value $Script:Config.LogLevel
