@@ -178,14 +178,16 @@ Describe -Name "Write-* functions" {
         Reset-LogPath
     }
 
-    Context "Write-Log Exceptions" {
+    Context "Write-Log Exception Handling" {
         It "redirects to the default log file path when access is denied to custom log file" {
             # Uses Write-Information as a pass-thru to Write-Log
             Reset-LogPath -Silent
+            $DefaultLogPath = Get-LogPath
             $CustomLogFile = "$TestLogPath\ReadOnlyLogTest.log"
             {Write-Information -MessageData "Test #1"} | Should -Not -Throw
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*INFO - Test #1*"
             Set-LogPath -Path $CustomLogFile
+            Rename-Item -Path $DefaultLogPath -NewName ($(Split-Path -Path $DefaultLogPath -Leaf) -replace '\.log$','.temp.log') -Force
             If(-not $(Test-Path $CustomLogFile)) {
                 New-Item -Path $CustomLogFile -ItemType File
             }
@@ -193,6 +195,13 @@ Describe -Name "Write-* functions" {
             Write-Information -MessageData "Test #2" 3>&1 | Should -BeLike "*Unable to write to log path $CustomLogFile, resetting to default path*"
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*INFO - Test #2*"
         }
+        Try {
+            Set-ItemProperty -Path $CustomLogFile -Name IsReadOnly -Value $False
+            Set-LogPath -Path $CustomLogFile
+            Remove-Item -Path $DefaultLogPath -Force
+            Rename-Item -Path ($DefaultLogPath -replace '\.log$','.temp.log') -NewName $DefaultLogPath -Force
+            Reset-LogPath
+        } Catch {}
         It "throws an exception when the default log file is read-only" {
             # Uses Write-Information as a pass-thru to Write-Log
             Reset-LogPath -Silent
