@@ -97,7 +97,7 @@ Process {
     If($Level -ge $Script:Config.LogLevel -and $PSCmdlet.ShouldProcess($Message)) {
         Try {
             If(-not $(Test-Path -Path $Script:Config.LogFilePath)) {
-                New-Item -Path "$($Script:Config.LogFilePath)" -ItemType File -Force
+                New-Item -Path "$($Script:Config.LogFilePath)" -ItemType File -Force | Out-Null
             }
             "$Date - $UserName - $Function - $Prefix - $Message" | Out-File @OutFileParams
         }
@@ -105,18 +105,15 @@ Process {
             Microsoft.PowerShell.Utility\Write-Warning -Message "Unable to write to log path $($Script:Config.LogFilePath), resetting to default path"
             Reset-LogPath -Silent   # Setting this to Silent to prevent an endless loop
             Try {
-                If(-not $(Test-Path -Path $Script:LogFilePath)) {
-                    New-Item -Path $Script:LogFilePath -ItemType File -Force
+                If(-not $(Test-Path -Path $Script:Config.LogFilePath)) {
+                    New-Item -Path "$($Script:Config.LogFilePath)" -ItemType File -Force | Out-Null
                 }
-                $OutFileParams.FilePath = $Script:LogFilePath
+                $OutFileParams.FilePath = $Script:Config.LogFilePath
                 "$Date - $Function - $Prefix - $Message" | Out-File @OutFileParams
             }
             Catch {
                 Throw "Unable to write log to file $($Script:Config.LogFilePath) after log path reset: $_"
             }
-        }
-        Catch {
-            Throw "Unable to write log to file $($Script:Config.LogFilePath): $_"
         }
     }
 } # Process
