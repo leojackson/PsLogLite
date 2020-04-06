@@ -1,0 +1,31 @@
+name: Publish
+
+on:
+  release:
+    types: [ publish ]
+
+jobs:
+  milestone:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install GitReleaseManager
+      uses: gittools/actions/gitreleasemanager/setup@v0.9.2
+      with:
+        versionSpec: '0.10.x'
+    - name: Close milestone with GitReleaseManager
+      uses: gittools/actions/gitreleasemanager/close@v0.9.2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        owner: 'leojackson'
+        repository: 'PsLogLite'
+        milestone: ${{ env.GITHUB_REF }}
+  psgallery:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Push package to PSGallery
+      env:
+        PSGALLERY_APIKEY: ${{ secrets.PSGALLERY_APIKEY }}
+      run: Publish-Module -Path ".\PsLogLite" -NuGetApiKey "$ENV:PSGALLERY_APIKEY"
+      shell: powershell
