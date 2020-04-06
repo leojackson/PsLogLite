@@ -75,7 +75,19 @@ Describe "Support Functions" {
             Get-LogFile | Should -Not -Be "$NewDir\NewLogFile"
             Get-LogFile | Should -Be "$NewDir\NewLogFile.log"
         }
+        It "Set-LogPath throws when log file exists but is not writeable" {
+            New-Item -Path "$NewDir\ReadOnlyFile.log" -ItemType File -Force
+            Set-ItemProperty -Path "$NewDir\ReadOnlyFile.log" -Name "IsReadOnly" -Value $true
+            { Set-LogFile -Path "$NewDir\ReadOnlyFile.log" } | Should -Throw
+        }
         Remove-Item -Path $NewPath -Force
         Remove-Item -Path $NewDir -Force -Recurse
     }
+    Context "ConfigImporter.ps1" {
+        $ScriptPath = "$PSScriptRoot\..\PsLogLite\Scripts\ConfigImporter.ps1"
+        It "accepts configuration data from JSON and turns it into " {
+            $(Get-Content "$ENV:APPDATA\PsLogLite\config.json" | ConvertFrom-Json | & $ScriptPath) -is [hashtable] | Should -Be $True
+        }
+    }
+    Reset-LogPath
 }

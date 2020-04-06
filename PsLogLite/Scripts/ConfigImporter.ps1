@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$True,ValueFromPipeline)]
-    [hashtable]
+    [PSCustomObject]
     $ConfigData
 )
 
@@ -20,26 +20,5 @@ process {
             $Config.$_ = $ConfigData.$_
         }
     }
-    If($Config.Count -gt 0) {
-        
-    }
-    Switch($Configs.Count) {
-        {$_ -gt 1} {
-            $AcceptedValues | ForEach-Object {
-                ForEach($Config in $Configs) {
-                    If($_ -in $Config.Keys) {
-
-                    }
-                }
-            }
-            Break
-        }
-        1 {
-            $Configs
-            Break
-        }
-        Default {
-            $null
-        }
-    }
+    $Config
 }

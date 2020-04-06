@@ -12,7 +12,7 @@
 RootModule = 'PsLogLite.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.1.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -53,7 +53,7 @@ SOFTWARE.'
 # Description = ''
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '5.1'
+PowerShellVersion = '5.0'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
@@ -117,7 +117,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        Tags = @('Log','Logs','Logging','LogFile')
 
         # A URL to the license for this module.
         LicenseUri = 'https://raw.githubusercontent.com/leojackson/psloglite/master/LICENSE'
