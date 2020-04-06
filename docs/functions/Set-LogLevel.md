@@ -11,7 +11,7 @@ Set-LogLevel
 ```
 
 ## Description
-The `Set-LogLevel` function sets the log level to the specified value. Unless `-Silent` is specified, it also logs the change to the log file as a META entry.
+The `#!powershell Set-LogLevel` function sets the log level to the specified value. Unless `#!powershell -Silent` is specified, it also logs the change to the log file as a META entry.
 
 ## Examples
 
@@ -33,7 +33,7 @@ Sets the log level to log all messages of level Debug or higher. No output is re
 
 ## Parameters
 
-__`-Confirm`__
+__`#!powershell -Confirm`__
 
 Prompts you for confirmation before running the cmdlet.
 
@@ -47,7 +47,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-__`-Level`__
+__`#!powershell -Level`__
 
 Prompts you for confirmation before running the cmdlet.
 
@@ -60,7 +60,7 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-__`-Silent`__
+__`#!powershell -Silent`__
 
 Suppresses a log of the reset to the log file.
 
@@ -73,7 +73,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-__`-WhatIf`__
+__`#!powershell -WhatIf`__
 
 Shows what would happen if the function runs. The function is not run.
 

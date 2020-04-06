@@ -8,7 +8,7 @@ __PsLogLite__ works by wrapping the existing Write cmdlets in proxy functions th
 
 ## Usage
 
-Load the module, and use the existing `Write-*` cmdlets you already use in your code. Other than loading the module, you do not need to make any changes to existing code to take advantage of PsLogLite's logging capability.
+Load the module, and use the existing `#!powershell Write-*` cmdlets you already use in your code. Other than loading the module, you do not need to make any changes to existing code to take advantage of PsLogLite's logging capability.
 
 This code:
 
@@ -37,7 +37,7 @@ Write-Debug -Message "Debug Message"
 03/01/2020 00:00:00.000 - (root) - DEBUG - Debug Message
 ```
 
-By default, the log is located at `%TEMP%\PsLogLite.module.log`, though this can be overridden with the `Set-LogPath` function.
+By default, the log is located at `#!powershell $ENV:TEMP\PsLogLite.module.log`, though this can be overridden with the `#!powershell Set-LogPath` function.
 
 ## License
 

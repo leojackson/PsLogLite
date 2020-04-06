@@ -34,7 +34,7 @@ This is available currently for the following functions:
 Transcripts are wonderful for capturing the console. This module is __not__ intended to replace the use of transcripts, but rather to augment them. Transcripts have some specific shortcomings that are addressed by PsLogLite:
 
 * A transcript cannot capture Verbose, Debug, Information, Warning, and Error messages when the corresponding preference action is set to SilentlyContinue
-    * PsLogLite configurations work __regardless of a specific log's preference action.__ For example, you can set `$VerbosePreference` to `SilentlyContinue` and still get verbose output to the PsLogLite log
+    * PsLogLite configurations work __regardless of a specific log's preference action.__ For example, you can set `#!powershell $VerbosePreference` to `#!powershell SilentlyContinue` and still get verbose output to the PsLogLite log
 * A transcript captures everything on the host, regardless of relevance
     * PsLogLite can be set to __ignore specific types of entries__ when they are not relevant for logging purposes (e.g. setting log levels)
 * Transcript formats can be difficult to parse using machine logic

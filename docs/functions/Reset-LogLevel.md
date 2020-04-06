@@ -10,7 +10,7 @@ Reset-LogLevel
 ```
 
 ## Description
-The `Reset-LogLevel` function resets the log level to the default setting, which is `Output`. Unless `-Silent` is specified, it also logs the reset to the log file as a META entry.
+The `#!powershell Reset-LogLevel` function resets the log level to the default setting, which is `#!powershell Output`. Unless `#!powershell -Silent` is specified, it also logs the reset to the log file as a META entry.
 
 ## Examples
 
@@ -32,7 +32,7 @@ The current log level is reset. No output is returned, and no log will be genera
 
 ## Parameters
 
-__`-Confirm`__
+__`#!powershell -Confirm`__
 
 Prompts you for confirmation before running the cmdlet.
 
@@ -45,7 +45,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-__`-Silent`__
+__`#!powershell -Silent`__
 
 Suppresses a log of the reset to the log file.
 
@@ -57,7 +57,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-__`-WhatIf`__
+__`#!powershell -WhatIf`__
 
 Shows what would happen if the function runs. The function is not run.
 

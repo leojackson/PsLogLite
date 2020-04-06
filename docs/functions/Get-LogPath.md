@@ -7,7 +7,7 @@ Get-LogPath
 ```
 
 ## Description
-The `Get-LogPath` function returns the current log file path of the module. This is stored in a script variable to prevent tampering mid-execution, so this function is the only method by which the variable can be safely retrieved outside the module scope.
+The `#!powershell Get-LogPath` function returns the current log file path of the module. This is stored in a script variable to prevent tampering mid-execution, so this function is the only method by which the variable can be safely retrieved outside the module scope.
 
 ## Examples
 
@@ -35,11 +35,11 @@ None
 
 __System.String__
 
-`Get-LogPath` returns a string representation of the current log file path.
+`#!powershell Get-LogPath` returns a string representation of the current log file path.
 
 ## Notes
 
-* `Get-LogPath` can be run using the built-in alias `Get-LogFile`.
+* `#!powershell Get-LogPath` can be run using the built-in alias `#!powershell Get-LogFile`.
 
 ## Related Links
 

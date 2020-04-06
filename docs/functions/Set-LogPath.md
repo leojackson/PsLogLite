@@ -11,13 +11,13 @@ Set-LogPath
 ```
 
 ## Description
-The `Set-LogPath` function sets the log file path to the specified value. Unless `-Silent` is specified, it also logs the change in both the existing log file and the new log file as a META entry.
+The `#!powershell Set-LogPath` function sets the log file path to the specified value. Unless `#!powershell -Silent` is specified, it also logs the change in both the existing log file and the new log file as a META entry.
 
-If the value specified for `-Path` is a directory, the command assumes the intention is to create a log file in that directory with the same name as the default log file.
+If the value specified for `#!powershell -Path` is a directory, the command assumes the intention is to create a log file in that directory with the same name as the default log file.
 
-If the value specified for `-Path` is not a complete path (e.g. only a file name), `Set-LogPath` will assume the intention is to create that file in `$Env:TEMP`.
+If the value specified for `#!powershell -Path` is not a complete path (e.g. only a file name), `#!powershell Set-LogPath` will assume the intention is to create that file in `#!powershell $Env:TEMP`.
 
-If the value specified for `-Path` is a file that does not exist, `Set-LogPath` will attempt to create it. This includes creating any intermediary directories.
+If the value specified for `#!powershell -Path` is a file that does not exist, `#!powershell Set-LogPath` will attempt to create it. This includes creating any intermediary directories.
 
 ## Examples
 
@@ -27,7 +27,7 @@ If the value specified for `-Path` is a file that does not exist, `Set-LogPath` 
 Set-LogPath -Path C:\Temp\Logfile.log
 ```
 
-Sets the log file path to `C:\Temp\Logfile.log`. If this file does not exist, `Set-LogPath` will attempt to create it.
+Sets the log file path to `#!powershell C:\Temp\Logfile.log`. If this file does not exist, `#!powershell Set-LogPath` will attempt to create it.
 
 No output is returned. A message is recorded in both log files regarding the change.
 
@@ -37,7 +37,7 @@ No output is returned. A message is recorded in both log files regarding the cha
 Set-LogPath -Path C:\Logs
 ```
 
-If `C:\Logs` is an existing directory, this sets the log file path to `C:\Logs\PsLogLite.module.log`, as no filename was specified. If `C:\Logs` is an existing file, the path is set to `C:\Logs` and the file `Logs` (with no extension) will function as the log file in the root of the `C:` drive.
+If `#!powershell C:\Logs` is an existing directory, this sets the log file path to `#!powershell C:\Logs\PsLogLite.module.log`, as no filename was specified. If `#!powershell C:\Logs` is an existing file, the path is set to `#!powershell C:\Logs` and the file `#!powershell Logs` (with no extension) will function as the log file in the root of the `#!powershell C:` drive.
 
 No output is returned. A message is recorded in both log files regarding the change.
 
@@ -47,7 +47,7 @@ No output is returned. A message is recorded in both log files regarding the cha
 Set-LogPath -Path LogFile.log
 ```
 
-Sets the log file path to `$ENV:Temp\LogFile.log` as the full path is not specified.
+Sets the log file path to `#!powershell $ENV:Temp\LogFile.log` as the full path is not specified.
 
 No output is returned. A message is recorded in both log files regarding the change.
 
@@ -66,13 +66,13 @@ This will generate an error message indicating that because the file is not writ
 Set-LogPath -Path C:\Temp\Logfile.log -Silent
 ```
 
-Sets the log file path to `C:\Temp\Logfile.log`. If this file does not exist, `Set-LogPath` will attempt to create it.
+Sets the log file path to `#!powershell C:\Temp\Logfile.log`. If this file does not exist, `#!powershell Set-LogPath` will attempt to create it.
 
 No output is returned, and no log will be generated indicating a change.
 
 ## Parameters
 
-__`-Confirm`__
+__`#!powershell -Confirm`__
 
 Prompts you for confirmation before running the cmdlet.
 
@@ -86,7 +86,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-__`-Path`__
+__`#!powershell -Path`__
 
 Prompts you for confirmation before running the cmdlet.
 
@@ -99,7 +99,7 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-__`-Silent`__
+__`#!powershell -Silent`__
 
 Suppresses a log of the reset to the log file.
 
@@ -112,7 +112,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-__`-WhatIf`__
+__`#!powershell -WhatIf`__
 
 Shows what would happen if the function runs. The function is not run.
 

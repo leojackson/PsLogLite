@@ -7,7 +7,7 @@ Get-LogLevel
 ```
 
 ## Description
-The `Get-LogLevel` function returns the current log level of the module. This is stored in a script variable to prevent tampering mid-execution, so this function is the only method by which the variable can be safely retrieved outside the module scope.
+The `#!powershell Get-LogLevel` function returns the current log level of the module. This is stored in a script variable to prevent tampering mid-execution, so this function is the only method by which the variable can be safely retrieved outside the module scope.
 
 ## Examples
 
@@ -35,7 +35,7 @@ None
 
 __System.String__
 
-`Get-LogLevel` returns a string representation of the current log level.
+`#!powershell Get-LogLevel` returns a string representation of the current log level.
 
 ## Related Links
 

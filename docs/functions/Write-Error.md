@@ -1,6 +1,6 @@
 # Write-Error
 
-Writes an error message to the error stream, logged according to the log level and log path configured as part of the `PsLogLite` module.
+Writes an error message to the error stream, logged according to the log level and log path configured as part of the `#!powershell PsLogLite` module.
 
 ```powershell
 Write-Error
@@ -47,9 +47,9 @@ Write-Error
 !!! info
     This function is a proxy function for the [Write-Error](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-error) cmdlet distributed as part of the [Microsoft.PowerShell.Utility](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/) built-in module. Please refer to Microsoft's documentation for how and where to use this function.
 
-This function uses the same parameters, accepts the same inputs, and produces the same outputs as the cmdlet `Write-Error` by implicitly calling a runtime-generated copy of that cmdlet within a wrapper function.
+This function uses the same parameters, accepts the same inputs, and produces the same outputs as the cmdlet `#!powershell Write-Error` by implicitly calling a runtime-generated copy of that cmdlet within a wrapper function.
 
-Inside that wrapper, the function sends the content of the `-ErrorRecord`, `-Exception`, or `-Message` parameter (depending on which parameter set is used) to the central log processor, `Write-Log`, a private function which decides whether the message gets logged based on the current log level, as well as where the log gets written based on the current log file path.
+Inside that wrapper, the function sends the content of the `#!powershell -ErrorRecord`, `#!powershell -Exception`, or `#!powershell -Message` parameter (depending on which parameter set is used) to the central log processor, `#!powershell Write-Log`, a private function which decides whether the message gets logged based on the current log level, as well as where the log gets written based on the current log file path.
 
 ## Related Links
 

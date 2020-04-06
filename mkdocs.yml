@@ -2,7 +2,7 @@ site_name: 'PsLogLite'
 site_url: https://leojackson.github.io/PsLogLite
 site_description: A lightweight, procedural logging utility for use with any PowerShell script.
 site_author: Leo Jackson
-#edit_uri: ''
+edit_uri: ''
 repo_url: https://github.com/leojackson/PsLogLite
 copyright: 'Copyright &copy; 2020 Leo Jackson'
 
@@ -22,6 +22,7 @@ markdown_extensions:
     - footnotes
     - meta
     - pymdownx.details
+    - pymdownx.inlinehilite
     - toc:
         permalink: true
 

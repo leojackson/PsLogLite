@@ -10,7 +10,7 @@ Reset-LogPath
 ```
 
 ## Description
-The `Reset-LogPath` function resets the log file path to the default setting, which is `%TEMP%\PsLogLite.module.log`. Unless `-Silent` is specified, it also logs the reset in both the existing log file and the default log file as a META entry.
+The `#!powershell Reset-LogPath` function resets the log file path to the default setting, which is `#!powershell $ENV:TEMP\PsLogLite.module.log`. Unless `#!powershell -Silent` is specified, it also logs the reset in both the existing log file and the default log file as a META entry.
 
 ## Examples
 
@@ -32,7 +32,7 @@ The current log file path is reset. No output is returned, and no log will be ge
 
 ## Parameters
 
-__`-Confirm`__
+__`#!powershell -Confirm`__
 
 Prompts you for confirmation before running the cmdlet.
 
@@ -45,7 +45,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-__`-Silent`__
+__`#!powershell -Silent`__
 
 Suppresses a log of the reset in both the existing log file and the default log file.
 
@@ -58,7 +58,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-__`-WhatIf`__
+__`#!powershell -WhatIf`__
 
 Shows what would happen if the function runs. The function is not run.
 
@@ -81,7 +81,7 @@ None
 
 ## Notes
 
-* `Reset-LogPath` can be run using the built-in alias `Reset-LogFile`.
+* `#!powershell Reset-LogPath` can be run using the built-in alias `#!powershell Reset-LogFile`.
 
 ## Related Links
 
