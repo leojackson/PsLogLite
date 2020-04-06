@@ -1,0 +1,70 @@
+site_name: 'PsLogLite'
+site_url: https://leojackson.github.io/PsLogLite
+site_description: A lightweight, procedural logging utility for use with any PowerShell script.
+site_author: Leo Jackson
+edit_uri: ''
+repo_url: https://github.com/leojackson/PsLogLite
+copyright: 'Copyright &copy; 2020 Leo Jackson'
+
+theme:
+    name: material
+    feature:
+        tabs: true
+    logo:
+        icon: "&#128209;"
+    font:
+        text: Sen
+        code: Source Code Pro
+
+markdown_extensions:
+    - admonition
+    - codehilite
+    - footnotes
+    - meta
+    - pymdownx.details
+    - pymdownx.inlinehilite
+    - pymdownx.magiclink
+    - toc:
+        permalink: true
+
+plugins:
+    - search
+    - git-revision-date-localized:
+        type: timeago
+
+nav:
+    - PsLogLite: index.md
+    - Usage: usage.md
+    - Functions:
+        - Get-LogLevel: 'functions/Get-LogLevel.md'
+        - Get-LogPath: 'functions/Get-LogPath.md'
+        - Reset-LogLevel: 'functions/Reset-LogLevel.md'
+        - Reset-LogPath: 'functions/Reset-LogPath.md'
+        - Set-LogLevel: 'functions/Set-LogLevel.md'
+        - Set-LogPath: 'functions/Set-LogPath.md'
+        - Write-Debug: 'functions/Write-Debug.md'
+        - Write-Error: 'functions/Write-Error.md'
+        - Write-Host: 'functions/Write-Host.md'
+        - Write-Information: 'functions/Write-Information.md'
+        - Write-Output: 'functions/Write-Output.md'
+        - Write-Verbose: 'functions/Write-Verbose.md'
+        - Write-Warning: 'functions/Write-Warning.md'
+    - Licenses:
+        - Overview: 'license.md'
+        - Source Code: 'license/source.md'
+        - Documentation: 'license/documentation.md'
+        - Microsoft: 'license/microsoft.md'
+    - Issues:
+        - Issues: 'https://github.com/leojackson/PsLogLite/issues'
+    - Changelog:
+        - Changelog: 'https://github.com/leojackson/PsLogLite/releases'
+
+extra_css:
+    - css/extra.css
+
+extra:
+    social:
+        - type: globe
+          link: https://leojackson.github.io
+        - type: github
+          link: https://github.com/leojackson

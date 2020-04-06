@@ -1,0 +1,34 @@
+article.md-typeset h1:first-of-type {
+    font-size: 40px;
+    font-weight: 400;
+    color: black;
+}
+
+.col-md-9 img {
+    border: 0;
+    margin: auto;
+}
+
+.md-header {
+    background-color: #0b1e8d;
+}
+
+main {
+    background-color: #dde0ff;
+}
+
+/* div.md-sidebar__scrollwrap {
+    padding: 20px 10px 8px;
+    border: 1px solid #0b1e8d;
+    background-color: #eff1ff;
+    border-radius: 15px;
+} */
+
+.md-typeset pre, .md-typeset code, .admonition {
+    background-color: #ffffffc0;
+}
+
+.md-header-nav__button {
+    margin-top: 0;
+    padding-bottom: .6rem;
+}

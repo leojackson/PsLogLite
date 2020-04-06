@@ -1,3 +1,6 @@
+# mkdocs build
+site/
+
 # Executables, binaries, packages
 *.exe
 *.msi
