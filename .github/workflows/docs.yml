@@ -12,8 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build documentation
+    - name: Prepare build environment
       run: |
+        sudo apt-get update -y
+        sudo apt-get install -y python-setuptools
         sudo pip3 install --upgrade pip
-        sudo pip3 install "setuptools>=36" mkdocs mkdocs-material mkdocs-git-revision-date-localized-plugin Markdown markdown-include MarkupSafe pymdown-extensions PyYAML
-        mkdocs gh-deploy
+        sudo pip3 install mkdocs mkdocs-material mkdocs-git-revision-date-localized-plugin Markdown markdown-include MarkupSafe pymdown-extensions PyYAML
+    - name: Build documentation
+      run: mkdocs gh-deploy
