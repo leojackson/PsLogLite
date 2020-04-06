@@ -5,6 +5,7 @@ on:
     branches: [ master ]
     paths:
     - 'PsLogLite/**'
+    - '.github/workflows/release.yml'
 
 jobs:
   release:
@@ -29,7 +30,7 @@ jobs:
       env:
         SEMVER: ${{ steps.gitversion.outputs.semVer }}
       run: |
-        Compress-Archive -Path .\PsLogLite -DestinationPath "".\PsLogLite-$($Env:SEMVER).zip" -CompressionLevel Optimal
+        Compress-Archive -Path .\PsLogLite -DestinationPath ".\PsLogLite-$($Env:SEMVER).zip" -CompressionLevel Optimal
         tar -czvf "PsLogLite-$($Env:SEMVER).tar.gz" .\PsLogLite
       shell: powershell
     - name: Create release
