@@ -11,12 +11,15 @@ jobs:
   mkdocs-build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: "3.8"
     - name: Prepare build environment
       run: |
-        sudo apt-get update -y
-        sudo apt-get install -y python-setuptools
-        sudo -H pip3 install --upgrade pip
-        sudo -H pip3 install mkdocs mkdocs-material mkdocs-git-revision-date-localized-plugin Markdown markdown-include MarkupSafe pymdown-extensions PyYAML
+        python -m pip install --upgrade pip setuptools wheel
+        pip install mkdocs mkdocs-material mkdocs-git-revision-date-localized-plugin Markdown markdown-include MarkupSafe pymdown-extensions PyYAML
     - name: Build documentation
       run: mkdocs gh-deploy
