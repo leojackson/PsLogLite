@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Write-Error.ps1
+
 # Write-Error
 
 Writes an error message to the error stream, logged according to the log level and log path configured as part of the `#!powershell PsLogLite` module.

@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Reset-LogPath.ps1
+
 # Reset-LogPath
 Returns the current log file path for the module.
 

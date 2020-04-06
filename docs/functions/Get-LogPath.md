@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Get-LogPath.ps1
+
 # Get-LogPath
 Returns the current log file path for the module.
 

@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Reset-LogLevel.ps1
+
 # Reset-LogLevel
 Returns the current log level for the module.
 

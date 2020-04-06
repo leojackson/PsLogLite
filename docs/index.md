@@ -1,3 +1,6 @@
+title: PsLogLite
+description: PsLogLite is a lightweight procedural logging utility for use with any PowerShell script.
+
 # PsLogLite
 
 __PsLogLite__ is a lightweight procedural logging utility for use with any PowerShell script. It works by using proxy functions to override all default Write-* cmdlets with script functions that log their input.

@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Write-Host.ps1
+
 # Write-Host
 
 Writes a message to the console, logged according to the log level and log path configured as part of the `#!powershell PsLogLite` module.

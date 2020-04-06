@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Set-LogLevel.ps1
+
 # Set-LogLevel
 Set the log level to a specific value.
 

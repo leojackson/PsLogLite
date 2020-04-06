@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Write-Warning.ps1
+
 # Write-Warning
 
 Writes a warning message to the warning stream, logged according to the log level and log path configured as part of the `#!powershell PsLogLite` module.

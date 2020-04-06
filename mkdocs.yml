@@ -23,6 +23,7 @@ markdown_extensions:
     - meta
     - pymdownx.details
     - pymdownx.inlinehilite
+    - pymdownx.magiclink
     - toc:
         permalink: true
 
@@ -49,12 +50,14 @@ nav:
         - Write-Verbose: 'functions/Write-Verbose.md'
         - Write-Warning: 'functions/Write-Warning.md'
     - Licenses:
-        - Overview: license.md
-        - Source Code: license/source.md
-        - Documentation: license/documentation.md
-        - Microsoft: license/microsoft.md
+        - Overview: 'license.md'
+        - Source Code: 'license/source.md'
+        - Documentation: 'license/documentation.md'
+        - Microsoft: 'license/microsoft.md'
+    - Issues:
+        - Issues: 'https://github.com/leojackson/PsLogLite/issues'
     - Changelog:
-        - Changelog: CHANGELOG.md
+        - Changelog: 'https://github.com/leojackson/PsLogLite/releases'
 
 extra_css:
     - css/extra.css

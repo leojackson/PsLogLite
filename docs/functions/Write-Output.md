@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Write-Output.ps1
+
 # Write-Output
 
 Sends the specified objects to the next command in the pipeline. If the command is the last command in the pipeline, the objects are displayed in the console. Message information is logged according to the log level and log path configured as part of the `#!powershell PsLogLite` module.

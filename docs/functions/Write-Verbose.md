@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Write-Verbose.ps1
+
 # Write-Verbose
 
 Writes text to the verbose message stream, logged according to the log level and log path configured as part of the `#!powershell PsLogLite` module.

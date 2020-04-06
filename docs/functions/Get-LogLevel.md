@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Get-LogLevel.ps1
+
 # Get-LogLevel
 Returns the current log level for the module.
 

@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Set-LogPath.ps1
+
 # Set-LogPath
 Set the log file path to a specific value.
 

@@ -1,3 +1,6 @@
+path: tree/master/PsLogLite/Public
+source: Write-Information.ps1
+
 # Write-Information
 
 Specifies how PowerShell handles information stream data for a command. The included message is logged according to the log level and log path configured as part of the `#!powershell PsLogLite` module.
