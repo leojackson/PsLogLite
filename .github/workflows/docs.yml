@@ -15,5 +15,5 @@ jobs:
     - name: Build documentation
       run: |
         sudo pip3 install --upgrade pip
-        pip3 install mkdocs mkdocs-material mkdocs-git-revision-date-localized-plugin Markdown markdown-include MarkupSafe pymdown-extensions PyYAML
+        sudo pip3 install "setuptools>=36" mkdocs mkdocs-material mkdocs-git-revision-date-localized-plugin Markdown markdown-include MarkupSafe pymdown-extensions PyYAML
         mkdocs gh-deploy
