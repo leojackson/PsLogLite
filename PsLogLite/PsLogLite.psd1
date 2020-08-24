@@ -50,7 +50,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.'
 
 # Description of the functionality provided by this module
-# Description = ''
+Description = 'A lightweight, procedural logging utility for use with any PowerShell script.'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '5.0'
@@ -117,13 +117,13 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = @('Log','Logs','Logging','LogFile')
+        Tags = @('Log','LogFile','LogFiles','Logger','Logging','Logs','ProxyFunction','ProxyFunctions','Transcript','Transcripts')
 
         # A URL to the license for this module.
         LicenseUri = 'https://raw.githubusercontent.com/leojackson/psloglite/master/LICENSE'
 
         # A URL to the main website for this project.
-        ProjectUri = 'https://github.com/leojackson/psloglite'
+        ProjectUri = 'https://github.com/leojackson/PsLogLite'
 
         # A URL to an icon representing this module.
         # IconUri = ''
