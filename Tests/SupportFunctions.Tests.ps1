@@ -63,19 +63,16 @@ Describe "Support Functions" {
 
         It "Set-LogPath automatically puts the log file into %TEMP% when only a filename is specified" {
             Set-LogFile -Path $NewFile
-            Get-LogFile | Should -Not -Be $NewFile
             Get-LogFile | Should -Be "$ENV:TEMP\$NewFile"
         }
 
         It "Set-LogPath automatically appends .log if the path does not exist and does not end in .log" {
             Set-LogFile -Path $NewDir
-            Get-LogFile | Should -Not -Be $NewDir
             Get-LogFile | Should -Be "$NewDir\PsLogLite.module.log"
         }
 
         It "Set-LogPath automatically sets the log file name to PsLogLite.module.log if a directory is specified" {
             Set-LogFile -Path "$NewDir\NewLogFile"
-            Get-LogFile | Should -Not -Be "$NewDir\NewLogFile"
             Get-LogFile | Should -Be "$NewDir\NewLogFile.log"
         }
 
