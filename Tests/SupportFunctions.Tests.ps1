@@ -4,11 +4,12 @@ Describe "Support Functions" {
             $(Get-LogLevel) -in [enum]::GetNames("PsLogLiteLevel") | Should -Be $True
         }
         
-        It "Set-LogLevel changes the log level to a different value" {
-            Set-LogLevel -Level "Output"
-            Get-LogLevel | Should -Be "Output"
-            Set-LogLevel -Level "Verbose"
-            Get-LogLevel | Should -Be "Verbose"
+        It "Set-LogLevel changes the log level to <LogLevel>" -TestCases @(
+            @{ LogLevel = "Output" }
+            @{ LogLevel = "Verbose" }
+        ) {
+            Set-LogLevel -Level $LogLevel
+            Get-LogLevel | Should -Be $LogLevel
         }
 
         It "Set-LogLevel throws an exception with invalid input" {
@@ -37,7 +38,6 @@ Describe "Support Functions" {
         }
 
         It "Set-LogPath changes the log level to a different value" {
-            Get-LogPath | Should -Be "$ENV:TEMP\PsLogLite.module.log"
             Set-LogPath -Path $NewPath
             Get-LogPath | Should -Be $NewPath
         }
@@ -62,19 +62,16 @@ Describe "Support Functions" {
 
         It "Set-LogPath automatically puts the log file into %TEMP% when only a filename is specified" {
             Set-LogFile -Path $NewFile
-            Get-LogFile | Should -Not -Be $NewFile
             Get-LogFile | Should -Be "$ENV:TEMP\$NewFile"
         }
 
         It "Set-LogPath automatically appends .log if the path does not exist and does not end in .log" {
             Set-LogFile -Path $NewDir
-            Get-LogFile | Should -Not -Be $NewDir
             Get-LogFile | Should -Be "$NewDir\PsLogLite.module.log"
         }
 
         It "Set-LogPath automatically sets the log file name to PsLogLite.module.log if a directory is specified" {
             Set-LogFile -Path "$NewDir\NewLogFile"
-            Get-LogFile | Should -Not -Be "$NewDir\NewLogFile"
             Get-LogFile | Should -Be "$NewDir\NewLogFile.log"
         }
 
