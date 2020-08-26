@@ -31,7 +31,6 @@ Describe -Name "Write-* functions" {
             @{ Description = "fails when no message is provided"; Params = @{ Message = $null; ErrorAction = "SilentlyContinue" }; OutString = "*CRIT - FAILED TO LOG DEBUG MESSAGE*" }
             @{ Description = "resets the output buffer when -OutBuffer is specified"; Params = @{ Message = "TestBuffer"; OutBuffer = 2 }; OutString = "*DEBUG - TestBuffer*" }
         ) {
-            param($Params,$OutString)
             Write-Debug @Params *>&1 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly $OutString
         }
@@ -62,7 +61,6 @@ Describe -Name "Write-* functions" {
             @{ Description = "fails when no message is provided"; Params = @{Message = $null}; OutString = "*CRIT - FAILED TO LOG ERROR MESSAGE*" }
             @{ Description = "resets the output buffer when -OutBuffer is specified"; Params = @{Message = "TestBuffer"; OutBuffer = 2}; OutString = "*ERROR - TestBuffer*" }
         ) {
-            param($Params,$OutString)
             Write-Error -ErrorAction SilentlyContinue @Params | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly $OutString
         }
@@ -83,7 +81,6 @@ Describe -Name "Write-* functions" {
             @{ Description = "fails when no message is provided"; Params = @{ Object = $null; ErrorAction = "SilentlyContinue" }; InString = $null; OutString = "*CRIT - FAILED TO LOG HOST MESSAGE*" }
             @{ Description = "resets the output buffer when -OutBuffer is specified"; Params = @{ Object = "TestBuffer"; OutBuffer = 2 }; InString = "TestBuffer"; OutString = "*HOST - TestBuffer*" }
         ) {
-            param($Params,$OutString)
             Write-Host @Params *>&1 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly $OutString
         }
@@ -104,7 +101,6 @@ Describe -Name "Write-* functions" {
             @{ Description = "fails when no message is provided"; Params = @{ MessageData = ""; ErrorAction = "SilentlyContinue" }; OutString = "*CRIT - FAILED TO LOG INFO MESSAGE*" }
             @{ Description = "resets the output buffer when -OutBuffer is specified"; Params = @{ MessageData = "TestBuffer"; OutBuffer = 2 }; OutString = "*INFO - TestBuffer*" }
         ) {
-            param($Params,$OutString)
             Write-Information @Params *>&1 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly $OutString
         }
@@ -125,7 +121,6 @@ Describe -Name "Write-* functions" {
             @{ Description = "fails when no message is provided"; Params = @{ InputObject = $null; ErrorAction = "SilentlyContinue"}; OutString = "*CRIT - FAILED TO LOG OUTPUT MESSAGE*" }
             @{ Description = "resets the output buffer when -OutBuffer is specified"; Params = @{ InputObject = "TestBuffer"; OutBuffer = 2 }; OutString = "*OUTPUT - TestBuffer*" }
         ) {
-            param($Params,$OutString)
             Write-Output @Params *>&1 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly $OutString
         }
@@ -149,7 +144,6 @@ Describe -Name "Write-* functions" {
             @{ Description = "fails when no message is provided"; Params = @{ Message = $null; ErrorAction = "SilentlyContinue" }; OutString = "*CRIT - FAILED TO LOG VERBOSE MESSAGE*" }
             @{ Description = "resets the output buffer when -OutBuffer is specified"; Params = @{  Message = "TestBuffer"; OutBuffer = 2}; OutString = "*VERBOSE - TestBuffer*" }
         ) {
-            param($Params,$OutString)
             Write-Verbose @Params *>&1 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly $OutString
         }
@@ -170,7 +164,6 @@ Describe -Name "Write-* functions" {
             @{ Description = "fails when no message is provided"; Params = @{ Message = $null; ErrorAction = "SilentlyContinue" }; OutString = "*CRIT - FAILED TO LOG WARN MESSAGE*" }
             @{ Description = "resets the output buffer when -OutBuffer is specified"; Params = @{ Message = "TestBuffer"; OutBuffer = 2 }; OutString = "*WARN - TestBuffer*" }
         ) {
-            param($Params,$OutString)
             Write-Warning @Params *>&1 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly $OutString
         }

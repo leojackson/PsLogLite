@@ -8,7 +8,6 @@ Describe "Support Functions" {
             @{ LogLevel = "Output" }
             @{ LogLevel = "Verbose" }
         ) {
-            param($LogLevel)
             Set-LogLevel -Level $LogLevel
             Get-LogLevel | Should -Be $LogLevel
         }
