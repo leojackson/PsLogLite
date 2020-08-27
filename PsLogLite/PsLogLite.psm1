@@ -24,14 +24,24 @@ New-Variable -Name "LogPipelineMap" -Scope Script -Option Constant -Visibility P
 New-Variable -Name "ModuleName" -Scope Script -Option Constant -Visibility Private -Value ($MyInvocation.MyCommand.Name -split "\.")[0]
 New-Variable -Name "DefaultLogFileName" -Scope Script -Option Constant -Visibility Private -Value "$Script:ModuleName.module.log"
 New-Variable -Name "DefaultLogFilePath" -Scope Script -Option Constant -Visibility Private -Value "$Env:TEMP\$Script:DefaultLogFileName"
-New-Variable -Name "DefaultLogLevel" -Scope Script -Option Constant -Visibility Private -Value "Output"
+New-Variable -Name "DefaultLogLevel" -Scope Script -Option Constant -Visibility Private -Value ([pscustomobject]@{
+    [PsLogLiteLevel]::Debug = $False
+    [PsLogLiteLevel]::Verbose = $False
+    [PsLogLiteLevel]::Information = $False
+    [PsLogLiteLevel]::Output = $True
+    [PsLogLiteLevel]::Host = $True
+    [PsLogLiteLevel]::Warning = $True
+    [PsLogLiteLevel]::Error = $True
+    [PsLogLiteLevel]::Critical = $True
+    [PsLogLiteLevel]::Meta = $True
+})
 New-Variable -Name "ConfigFile" -Scope Script -Option Constant -Visibility Private -Value "$ENV:APPDATA\$Script:ModuleName\config.json"
 
 # If config file hasn't been created,
 If(-not (Test-Path -Path $Script:ConfigFile -PathType Leaf)) { 
     New-Item -Path $Script:ConfigFile -ItemType File -Force
     @{
-        LogLevel="$Script:DefaultLogLevel"
+        LogLevel=$Script:DefaultLogLevel
         LogFileName="$Script:DefaultLogFileName"
         LogFilePath="$Script:DefaultLogFilePath"
     } | ConvertTo-Json | Out-File -FilePath $Script:ConfigFile -Force
