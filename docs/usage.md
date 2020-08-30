@@ -8,6 +8,9 @@ Install the [latest release from PowerShell Gallery](https://www.powershellgalle
 Install-Module PsLogLite -AllowClobber -Force
 ```
 
+!!! important
+    __When installing, make sure the `#!powershell -Allow-Clobber` parameter is specified.__ PsLogLite works by overriding (or "clobbering") some built-in functions of PowerShell, so if you try to install this module without the `#!powershell -Allow-Clobber` parameter, `#!powershell Install-Module` will throw an error.
+
 Add this to your PowerShell script:
 
 ```powershell
@@ -15,9 +18,6 @@ Import-Module PsLogLite
 ```
 
 ...and you're good to go.
-
-!!! warning "Important"
-    __When installing, make sure the `#!powershell -Allow-Clobber` parameter is specified.__ PsLogLite only works by overriding some built-in functions of PowerShell, so if you try to install this module without the `#!powershell -Allow-Clobber` parameter, `#!powershell Install-Module` will throw an error.
 
 ## How It Works
 

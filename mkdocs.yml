@@ -8,10 +8,12 @@ copyright: 'Copyright &copy; 2020 Leo Jackson'
 
 theme:
     name: material
-    feature:
-        tabs: true
-    logo:
-        icon: "&#128209;"
+    features:
+        - tabs
+        - instant
+    icon:
+        logo: FontAwesome/solid/file-invoice
+        repo: FontAwesome/brands/github-alt
     font:
         text: Sen
         code: Source Code Pro
@@ -22,6 +24,9 @@ markdown_extensions:
     - footnotes
     - meta
     - pymdownx.details
+    - pymdownx.emoji:
+        emoji_index: !!python/name:materialx.emoji.twemoji
+        emoji_generator: !!python/name:materialx.emoji.to_svg
     - pymdownx.inlinehilite
     - pymdownx.magiclink
     - toc:
@@ -58,13 +63,17 @@ nav:
         - Issues: 'https://github.com/leojackson/PsLogLite/issues'
     - Changelog:
         - Changelog: 'https://github.com/leojackson/PsLogLite/releases'
+    - PowerShell Gallery:
+        - PowerShell Gallery: 'https://www.powershellgallery.com/packages/PsLogLite'
 
 extra_css:
     - css/extra.css
 
 extra:
     social:
-        - type: globe
+        - icon: FontAwesome/solid/globe
           link: https://leojackson.github.io
-        - type: github
+        - icon: FontAwesome/brands/github
           link: https://github.com/leojackson
+        - icon: Octicons/package-24
+          link: https://www.powershellgallery.com/profiles/leojackson
