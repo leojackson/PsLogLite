@@ -2,7 +2,7 @@
 
 ## Quick Start
 
-Install the [latest release from PowerShell Gallery](https://www.powershellgallery.com/packages/PsLogLite) by running this from an elevated PowerShell prompt:
+Install the [latest release from PowerShell Gallery](https://www.powershellgallery.com/packages/PsLogLite) by running this command from an elevated PowerShell prompt:
 
 ```powershell
 Install-Module PsLogLite -AllowClobber -Force

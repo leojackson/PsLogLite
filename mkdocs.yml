@@ -12,8 +12,8 @@ theme:
         - tabs
         - instant
     icon:
-        logo: FontAwesome/solid/file-invoice
-        repo: FontAwesome/brands/github-alt
+        logo: fontawesome/solid/file-invoice
+        repo: fontawesome/brands/github-alt
     font:
         text: Sen
         code: Source Code Pro
@@ -71,9 +71,9 @@ extra_css:
 
 extra:
     social:
-        - icon: FontAwesome/solid/globe
+        - icon: fontawesome/solid/globe
           link: https://leojackson.github.io
-        - icon: FontAwesome/brands/github
+        - icon: fontawesome/brands/github
           link: https://github.com/leojackson
-        - icon: Octicons/package-24
+        - icon: octicons/package-24
           link: https://www.powershellgallery.com/profiles/leojackson
