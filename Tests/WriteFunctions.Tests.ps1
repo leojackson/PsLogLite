@@ -1,14 +1,20 @@
-$TestLogPath = "$ENV:Temp\PsLogLite-PesterTests"
+BeforeAll {
+    $TestLogPath = "$ENV:Temp\PsLogLite-PesterTests"
+}
 
 Describe -Name "Write-* functions" {
 
-    # Set log level to highest level to prep for all contexts
-    Set-LogLevel -Level "Debug"
+    BeforeAll {
+        # Set log level to highest level to prep for all contexts
+        Set-LogLevel -Level "Debug"
+    }
 
     Context "Write-Debug" {
-        $TestLogFile = "$TestLogPath\Write-Debug.log"
-        New-Item -Path $TestLogFile -Force -ItemType File
-        Set-LogPath -Path $TestLogFile
+        BeforeAll {
+            $TestLogFile = "$TestLogPath\Write-Debug.log"
+            New-Item -Path $TestLogFile -Force -ItemType File
+            Set-LogPath -Path $TestLogFile
+        }
         It "writes only to the Debug stream" {
             $DebugTemp = $Global:DebugPreference
             $Global:DebugPreference = "Continue"
@@ -27,13 +33,17 @@ Describe -Name "Write-* functions" {
             Write-Debug -Message "TestBuffer" -OutBuffer 2
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*DEBUG - TestBuffer*"
         }
-        Reset-LogPath
+        AfterAll {
+            Reset-LogPath
+        }
     }
     
     Context "Write-Error" {
-        $TestLogFile = "$TestLogPath\Write-Error.log"
-        New-Item -Path $TestLogFile -Force -ItemType File
-        Set-LogPath -Path $TestLogFile
+        BeforeAll {
+            $TestLogFile = "$TestLogPath\Write-Error.log"
+            New-Item -Path $TestLogFile -Force -ItemType File
+            Set-LogPath -Path $TestLogFile
+        }
         It "writes only to the Error stream" {
             Write-Error -Message "This is an error message." -ErrorAction Continue 2>&1 | Should -BeLikeExactly "This is an error message."
         }
@@ -62,13 +72,17 @@ Describe -Name "Write-* functions" {
             Write-Error -Message "TestBuffer" -OutBuffer 2 -ErrorAction SilentlyContinue
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*ERROR - TestBuffer*"
         }
-        Reset-LogPath
+        AfterAll {
+            Reset-LogPath
+        }
     }
 
     Context "Write-Host" {
-        $TestLogFile = "$TestLogPath\Write-Host.log"
-        New-Item -Path $TestLogFile -Force -ItemType File
-        Set-LogPath -Path $TestLogFile
+        BeforeAll {
+            $TestLogFile = "$TestLogPath\Write-Host.log"
+            New-Item -Path $TestLogFile -Force -ItemType File
+            Set-LogPath -Path $TestLogFile
+        }
         It "writes to the Information stream" {
             Write-Host -Object "This is a host message." 6>&1 | Should -Be "This is a host message."
         }
@@ -84,13 +98,17 @@ Describe -Name "Write-* functions" {
             Write-Host -Object "TestBuffer" -OutBuffer 2 6>&1 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*HOST - TestBuffer*"
         }
-        Reset-LogPath
+        AfterAll {
+            Reset-LogPath
+        }
     }
 
     Context "Write-Information" {
-        $TestLogFile = "$TestLogPath\Write-Information.log"
-        New-Item -Path $TestLogFile -Force -ItemType File
-        Set-LogPath -Path $TestLogFile
+        BeforeAll {
+            $TestLogFile = "$TestLogPath\Write-Information.log"
+            New-Item -Path $TestLogFile -Force -ItemType File
+            Set-LogPath -Path $TestLogFile
+        }
         It "writes only to the Information stream" {
             Write-Information -MessageData "This is an information message." -InformationAction Continue 6>&1 | Should -Be "This is an information message."
         }
@@ -106,13 +124,17 @@ Describe -Name "Write-* functions" {
             Write-Information -MessageData "TestBuffer" -OutBuffer 2 6>&1 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*INFO - TestBuffer*"
         }
-        Reset-LogPath
+        AfterAll {
+            Reset-LogPath
+        }
     }
 
     Context "Write-Output" {
-        $TestLogFile = "$TestLogPath\Write-Output.log"
-        New-Item -Path $TestLogFile -Force -ItemType File
-        Set-LogPath -Path $TestLogFile
+        BeforeAll {
+            $TestLogFile = "$TestLogPath\Write-Output.log"
+            New-Item -Path $TestLogFile -Force -ItemType File
+            Set-LogPath -Path $TestLogFile
+        }
         It "writes only to the Success stream" {
             Write-Output -InputObject "This is an output message." | Should -Be "This is an output message."
         }
@@ -128,13 +150,17 @@ Describe -Name "Write-* functions" {
             Write-Output -InputObject "TestBuffer" -OutBuffer 2 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*OUTPUT - TestBuffer*"
         }
-        Reset-LogPath
+        AfterAll {
+            Reset-LogPath
+        }
     }
 
     Context "Write-Verbose" {
-        $TestLogFile = "$TestLogPath\Write-Verbose.log"
-        New-Item -Path $TestLogFile -Force -ItemType File
-        Set-LogPath -Path $TestLogFile
+        BeforeAll {
+            $TestLogFile = "$TestLogPath\Write-Verbose.log"
+            New-Item -Path $TestLogFile -Force -ItemType File
+            Set-LogPath -Path $TestLogFile
+        }
         It "writes only to the Verbose stream" {
             $VerboseTemp = $Global:VerbosePreference
             $Global:VerbosePreference = "Continue"
@@ -153,13 +179,17 @@ Describe -Name "Write-* functions" {
             Write-Verbose -Message "TestBuffer" -OutBuffer 2 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*VERBOSE - TestBuffer*"
         }
-        Reset-LogPath
+        AfterAll {
+            Reset-LogPath
+        }
     }
 
     Context "Write-Warning" {
-        $TestLogFile = "$TestLogPath\Write-Warning.log"
-        New-Item -Path $TestLogFile -Force -ItemType File
-        Set-LogPath -Path $TestLogFile
+        BeforeAll {
+            $TestLogFile = "$TestLogPath\Write-Warning.log"
+            New-Item -Path $TestLogFile -Force -ItemType File
+            Set-LogPath -Path $TestLogFile
+        }
         It "writes only to the Warning stream" {
             Write-Warning -Message "This is an warning message." -WarningAction Continue 3>&1 | Should -BeLikeExactly "This is an warning message."
         }
@@ -175,12 +205,17 @@ Describe -Name "Write-* functions" {
             Write-Warning -Message "TestBuffer" -OutBuffer 2 3>&1 | Out-Null
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*WARN - TestBuffer*"
         }
-        Reset-LogPath
+        AfterAll {
+            Reset-LogPath
+        }
     }
 
     Context "Write-Log Exception Handling" {
-        $CustomLogFile = "$TestLogPath\ReadOnlyLogTest.log"
-        
+        BeforeAll {
+            $CustomLogFile = "$TestLogPath\ReadOnlyLogTest.log"
+            Reset-LogPath -Silent
+            $DefaultLogPath = Get-LogPath
+        }
         It "redirects to the default log file path when access is denied to custom log file" {
             # Uses Write-Information as a pass-thru to Write-Log
             Reset-LogPath -Silent
@@ -197,18 +232,18 @@ Describe -Name "Write-* functions" {
             Get-Content -Path $(Get-LogPath) -Raw | Should -BeLikeExactly "*INFO - Test #2*"
         }
 
-        # Resetting the environment after the last test
-        If(Test-Path -Path $CustomLogFile) {
-            Set-ItemProperty -Path $CustomLogFile -Name IsReadOnly -Value $False
-            Set-LogPath -Path $CustomLogFile
-        }
-        If((Test-Path -Path $DefaultLogPath) -and (Test-Path -Path ($DefaultLogPath -replace '\.log$','.temp.log'))) {
-            Remove-Item -Path $DefaultLogPath -Force
-            Rename-Item -Path ($DefaultLogPath -replace '\.log$','.temp.log') -NewName $DefaultLogPath -Force
-        }
-        Reset-LogPath
-
         It "throws an exception when the default log file is read-only" {
+            # Resetting the environment after the last test
+            If(Test-Path -Path $CustomLogFile) {
+                Set-ItemProperty -Path $CustomLogFile -Name IsReadOnly -Value $False
+                Set-LogPath -Path $CustomLogFile
+            }
+            If((Test-Path -Path $DefaultLogPath) -and (Test-Path -Path ($DefaultLogPath -replace '\.log$','.temp.log'))) {
+                Remove-Item -Path $DefaultLogPath -Force
+                Rename-Item -Path ($DefaultLogPath -replace '\.log$','.temp.log') -NewName $DefaultLogPath -Force
+            }
+            Reset-LogPath
+
             # Uses Write-Information as a pass-thru to Write-Log
             Reset-LogPath -Silent
             {Write-Information -MessageData "Test #3"} | Should -Not -Throw
@@ -220,7 +255,9 @@ Describe -Name "Write-* functions" {
         }
     }
 
-    Reset-LogPath
-    Reset-LogLevel
-    Remove-Item -Path $TestLogPath -Force -Recurse
+    AfterAll {
+        Reset-LogPath
+        Reset-LogLevel
+        Remove-Item -Path $TestLogPath -Force -Recurse
+    }
 }

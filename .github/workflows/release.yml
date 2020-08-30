@@ -5,6 +5,7 @@ on:
     branches: [ master ]
     paths:
     - 'PsLogLite/**'
+    - '.github/workflows/release.yml'
 
 jobs:
   release:
@@ -25,21 +26,25 @@ jobs:
       uses: gittools/actions/gitreleasemanager/setup@v0.9.2
       with:
         versionSpec: '0.10.x'
-    - name: Create artifacts
+    - name: Create artifact
       env:
-        SEMVER: ${{ steps.gitversion.outputs.semVer }}
-      run: |
-        Compress-Archive -Path .\PsLogLite -DestinationPath "".\PsLogLite-$($Env:SEMVER).zip" -CompressionLevel Optimal
-        tar -czvf "PsLogLite-$($Env:SEMVER).tar.gz" .\PsLogLite
+        PROJECT_NAME: ${{ github.event.repository.name }}
+        RELEASE_VERSION: ${{ steps.gitversion.outputs.semVer }}
+      run: .github\workflows\create-artifact.ps1
       shell: powershell
     - name: Create release
       uses: gittools/actions/gitreleasemanager/create@v0.9.2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        owner: 'leojackson'
-        repository: 'PsLogLite'
+        owner: ${{ github.repository_owner }}
+        repository: ${{ github.event.repository.name }}
         milestone: ${{ steps.gitversion.outputs.semVer }}
         name: ${{ steps.gitversion.outputs.semVer }}
         assets: |
-          PsLogLite-${{ steps.gitversion.outputs.semVer }}.zip
-          PsLogLite-${{ steps.gitversion.outputs.semVer }}.tar.gz
+          ${{ github.event.repository.name }}-${{ steps.gitversion.outputs.semVer }}.zip
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: install-archive
+        path: |
+          ${{ github.event.repository.name }}-${{ steps.gitversion.outputs.semVer }}.zip

@@ -12,7 +12,7 @@ Describe "Support Functions" {
         }
 
         It "Set-LogLevel throws an exception with invalid input" {
-            { Set-LogLevel -Level "Garbage" } | Should -Throw "Level must be a valid PsLogLiteLevel value"
+            { Set-LogLevel -Level "Garbage" } | Should -Throw "Cannot validate argument on parameter 'Level'. Level must be a valid PsLogLiteLevel value"
         }
 
         It "Reset-LogLevel changes the log level back to the default" {
@@ -21,10 +21,12 @@ Describe "Support Functions" {
         }
     }
     Context "LogPath" {
-        $NewFile = "PsLogLite.newpath.log"
-        $NewDir = "$ENV:TEMP\PsLogLite-PathTest"
-        $NewPath = "$ENV:TEMP\$NewFile"
-        New-Item -Path $NewDir -ItemType Directory -Force
+        BeforeAll {
+            $NewFile = "PsLogLite.newpath.log"
+            $NewDir = "$ENV:TEMP\PsLogLite-PathTest"
+            $NewPath = "$ENV:TEMP\$NewFile"
+            New-Item -Path $NewDir -ItemType Directory -Force
+        }
 
         It "Get-LogPath returns the current log path" {
             Test-Path $(Get-LogPath) | Should -Be $True
@@ -75,19 +77,29 @@ Describe "Support Functions" {
             Get-LogFile | Should -Not -Be "$NewDir\NewLogFile"
             Get-LogFile | Should -Be "$NewDir\NewLogFile.log"
         }
+
         It "Set-LogPath throws when log file exists but is not writeable" {
             New-Item -Path "$NewDir\ReadOnlyFile.log" -ItemType File -Force
             Set-ItemProperty -Path "$NewDir\ReadOnlyFile.log" -Name "IsReadOnly" -Value $true
             { Set-LogFile -Path "$NewDir\ReadOnlyFile.log" } | Should -Throw
         }
-        Remove-Item -Path $NewPath -Force
-        Remove-Item -Path $NewDir -Force -Recurse
+
+        AfterAll {
+            Remove-Item -Path $NewPath -Force
+            Remove-Item -Path $NewDir -Force -Recurse
+        }
     }
     Context "ConfigImporter.ps1" {
-        $ScriptPath = "$PSScriptRoot\..\PsLogLite\Scripts\ConfigImporter.ps1"
+        BeforeAll {
+            $ScriptPath = "$PSScriptRoot\..\PsLogLite\Scripts\ConfigImporter.ps1"
+        }
+
         It "accepts configuration data from JSON and turns it into " {
             $(Get-Content "$ENV:APPDATA\PsLogLite\config.json" | ConvertFrom-Json | & $ScriptPath) -is [hashtable] | Should -Be $True
         }
     }
-    Reset-LogPath
+
+    AfterAll {
+        Reset-LogPath
+    }
 }

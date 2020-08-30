@@ -28,10 +28,17 @@ jobs:
         RUNNER_TEMP: ${{ runner.temp }}
       run: |
         Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-        Install-Module Pester -MinimumVersion 4.0.0 -Force -SkipPublisherCheck
-        $CodecovTargets = Get-ChildItem -Path .\PsLogLite -Recurse -File -Include '*.ps1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
+        Install-Module Pester -MinimumVersion 5.0.3 -Force -SkipPublisherCheck
+        Import-Module Pester
+        $Config = [PesterConfiguration]::Default
+        $Config.Run.Path = ".\Tests"
+        $Config.Run.Exit = $True
+        $Config.CodeCoverage.Enabled = $True
+        $Config.CodeCoverage.Path = Get-ChildItem -Path .\PsLogLite -Recurse -File -Include '*.ps1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
+        $Config.CodeCoverage.OutputPath = ".\PsLogLite.coverage.xml"
+        $Config.Output.Verbosity = "Detailed"
         Import-Module .\PsLogLite
-        Invoke-Pester -Script .\Tests -Strict -CodeCoverage $CodecovTargets -CodeCoverageOutputFile ".\PsLogLite.coverage.xml"
+        Invoke-Pester -Configuration $Config
       shell: powershell
     - name: Upload coverage to Codecov
       env:

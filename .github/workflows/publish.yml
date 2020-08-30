@@ -2,12 +2,14 @@ name: Publish
 
 on:
   release:
-    types: [ publish ]
+    types: [ published ]
 
 jobs:
-  milestone:
+  grm:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Install GitReleaseManager
       uses: gittools/actions/gitreleasemanager/setup@v0.9.2
       with:
@@ -16,16 +18,19 @@ jobs:
       uses: gittools/actions/gitreleasemanager/close@v0.9.2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        owner: 'leojackson'
-        repository: 'PsLogLite'
-        milestone: ${{ env.GITHUB_REF }}
+        owner: ${{ github.repository_owner }}
+        repository: ${{ github.event.repository.name }}
+        milestone: ${{ github.event.release.tag_name }}
   psgallery:
     runs-on: windows-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Push package to PSGallery
+    - name: Publish package to PowerShell Gallery
       env:
         PSGALLERY_APIKEY: ${{ secrets.PSGALLERY_APIKEY }}
-      run: Publish-Module -Path ".\PsLogLite" -NuGetApiKey "$ENV:PSGALLERY_APIKEY"
-      shell: powershell
+        PROJECT_NAME: ${{ github.event.repository.name }}
+        RELEASE_NOTES: ${{ github.event.release.body }}
+        RELEASE_VERSION: ${{ github.event.release.tag_name }}
+      run: .github\workflows\psgallery-publish.ps1
+      shell: pwsh
