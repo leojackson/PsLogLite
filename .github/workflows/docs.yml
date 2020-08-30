@@ -22,4 +22,5 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         pip install mkdocs mkdocs-material mkdocs-git-revision-date-localized-plugin Markdown markdown-include MarkupSafe pymdown-extensions PyYAML
     - name: Build documentation
-      run: mkdocs gh-deploy
+      run: mkdocs gh-deploy --force
+
