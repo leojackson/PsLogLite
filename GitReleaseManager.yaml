@@ -8,12 +8,11 @@ create:
     Install-Module PsLogLite -MinimumVersion {milestone}
     ```
     Please review the [documentation](https://leojackson.github.io/PsLogLite/) and submit any bugs, feature requests, etc via the project's [issues](https://github.com/leojackson/PsLogLite/issues) page.
-  footer-includes-milestone: false
+  footer-includes-milestone: true
   milestone-replace-text: '{milestone}'
   include-sha-section: false
   sha-section-heading: SHA256 Hashes of the release artifacts
   sha-section-line-format: '- `{1}	{0}`'
-  allow-update-to-published: false
 
 # Configuration values used when exporting release notes
 export:
