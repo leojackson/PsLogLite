@@ -2,11 +2,11 @@
 create:
   include-footer: true
   footer-heading: Installation
-  footer-content: >-
-    PsLogLite is available in the PowerShell Gallery
-    ```powershell
-    Install-Module PsLogLite -MinimumVersion {milestone}
-    ```
+  footer-content: |
+    PsLogLite is available in the PowerShell Gallery\n
+    ```powershell\n
+    Install-Module PsLogLite -MinimumVersion {milestone}\n
+    ```\n
     Please review the [documentation](https://leojackson.github.io/PsLogLite/) and submit any bugs, feature requests, etc via the project's [issues](https://github.com/leojackson/PsLogLite/issues) page.
   footer-includes-milestone: true
   milestone-replace-text: '{milestone}'
@@ -26,7 +26,7 @@ export:
 close:
   # Whether to add comments to issues closed and with the published milestone release.
   use-issue-comments: true
-  issue-comment: |-
+  issue-comment: |
     :tada: This issue has been resolved in version {milestone} :tada:
 
     The release is available on:

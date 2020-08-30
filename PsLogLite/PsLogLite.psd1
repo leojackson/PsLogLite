@@ -129,7 +129,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        # ReleaseNotes = ''
+        # ReleaseNotes = 'Release Notes Placeholder'
 
         # Prerelease string of this module
         # Prerelease = ''
