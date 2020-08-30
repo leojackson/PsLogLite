@@ -6,7 +6,7 @@ $ReleaseNotes = $ENV:RELEASE_NOTES -ireplace "(?s)#{1,} ?Installation.*",""
 Update-ModuleManifest -Path $ManifestFile.Path -ReleaseNotes $ReleaseNotes -ModuleVersion $ENV:RELEASE_VERSION
 Try {
     Test-ModuleManifest -Path $ManifestFile.Path -ErrorAction Stop
-    Publish-Module -Name $ENV:PROJECT_NAME -Path $ModulePath -NuGetApiKey $ENV:PSGALLERY_APIKEY -Force -ErrorAction Stop
+    Publish-Module -Path $ModulePath -NuGetApiKey $ENV:PSGALLERY_APIKEY -Force -ErrorAction Stop
 }
 Catch {
     Throw "Unable to publish module: $_"
