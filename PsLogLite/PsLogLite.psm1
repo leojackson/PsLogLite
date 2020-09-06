@@ -27,11 +27,13 @@ New-Variable -Name "DefaultLogFileParent" -Scope Script -Option Constant -Visibi
 #New-Variable -Name "DefaultLogFilePath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path $Script:DefaultLogFileParent -ChildPath "$Script:DefaultLogFileName")
 New-Variable -Name "DefaultLogLevel" -Scope Script -Option Constant -Visibility Private -Value "Output"
 Switch([System.Environment]::OSVersion.Platform) {
+    "MacOSX" {}     # Match string version
     [System.PlatformID]::MacOSX {
         New-Variable -Name "ConfigPath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path "~" -ChildPath "Library/Application Support/$Script:ModuleName")
         New-Item -Path $Script:ConfigPath -ItemType Directory -Force
         Break
     }
+    "Unix" {}       # Match string version
     [System.PlatformID]::Unix {
         New-Variable -Name "ConfigPath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path "~" -ChildPath ".$Script:ModuleName".ToLower())
         (New-Item -Path $Script:ConfigPath -ItemType Directory -Force).Attributes += "Hidden"

@@ -24,8 +24,9 @@ Describe "Support Functions" {
     Context "LogPath" {
         BeforeAll {
             $NewFile = "PsLogLite.newpath.log"
-            $NewDir = "$ENV:TEMP\PsLogLite-PathTest"
-            $NewPath = "$ENV:TEMP\$NewFile"
+            $NewDir = Join-Path -Path $([IO.Path]::GetTempPath()) -ChildPath "PsLogLite-PathTest"
+            $NewPath = Join-Path -Path $([IO.Path]::GetTempPath()) -ChildPath $NewFile
+            $DefaultPath = Join-Path -Path $([IO.Path]::GetTempPath()) -ChildPath "PsLogLite.module.log"
             New-Item -Path $NewDir -ItemType Directory -Force
         }
 
@@ -45,11 +46,11 @@ Describe "Support Functions" {
         It "Reset-LogPath changes the log path back to the default" {
             Set-LogPath -Path $NewPath
             Reset-LogPath
-            Get-LogPath | Should -Be "$ENV:TEMP\PsLogLite.module.log"
+            Get-LogPath | Should -Be $DefaultPath
         }
 
         It "Set-LogPath also works when referenced by alias Set-LogFile" {
-            Get-LogFile | Should -Be "$ENV:TEMP\PsLogLite.module.log"
+            Get-LogFile | Should -Be $DefaultPath
             Set-LogFile -Path $NewPath
             Get-LogFile | Should -Be $NewPath
         }
@@ -57,27 +58,26 @@ Describe "Support Functions" {
         It "Reset-LogPath also works when referenced by alias Reset-LogFile" {
             Set-LogFile -Path $NewPath
             Reset-LogFile
-            Get-LogFile | Should -Be "$ENV:TEMP\PsLogLite.module.log"
+            Get-LogFile | Should -Be $DefaultPath
         }
 
         It "Set-LogPath automatically puts the log file into %TEMP% when only a filename is specified" {
             Set-LogFile -Path $NewFile
-            Get-LogFile | Should -Be "$ENV:TEMP\$NewFile"
+            Get-LogFile | Should -Be $NewPath
         }
 
         It "Set-LogPath automatically appends .log if the path does not exist and does not end in .log" {
             Set-LogFile -Path $NewDir
-            Get-LogFile | Should -Be "$NewDir\PsLogLite.module.log"
+            Get-LogFile | Should -Be $(Join-Path -Path $NewDir -ChildPath "PsLogLite.module.log")
         }
 
         It "Set-LogPath automatically sets the log file name to PsLogLite.module.log if a directory is specified" {
-            Set-LogFile -Path "$NewDir\NewLogFile"
-            Get-LogFile | Should -Be "$NewDir\NewLogFile.log"
+            Set-LogFile -Path $(Join-Path -Path $NewDir -ChildPath "NewLogFile")
+            Get-LogFile | Should -Be $(Join-Path -Path $NewDir -ChildPath "NewLogFile.log")
         }
 
         It "Set-LogPath throws when log file exists but is not writeable" {
-            New-Item -Path "$NewDir\ReadOnlyFile.log" -ItemType File -Force
-            Set-ItemProperty -Path "$NewDir\ReadOnlyFile.log" -Name "IsReadOnly" -Value $true
+            New-Item -Path $(Join-Path -Path $NewDir -ChildPath "ReadOnlyFile.log") -ItemType File -Force | Set-ItemProperty -Name "IsReadOnly" -Value $true
             { Set-LogFile -Path "$NewDir\ReadOnlyFile.log" } | Should -Throw
         }
 
@@ -88,11 +88,28 @@ Describe "Support Functions" {
     }
     Context "ConfigImporter.ps1" {
         BeforeAll {
-            $ScriptPath = "$PSScriptRoot\..\PsLogLite\Scripts\ConfigImporter.ps1"
+            $Sep = [IO.Path]::DirectorySeparatorChar
+            $ScriptPath = Resolve-Path "$PSScriptRoot${Sep}..${Sep}PsLogLite${Sep}Scripts${Sep}ConfigImporter.ps1"
         }
 
-        It "accepts configuration data from JSON and turns it into " {
-            $(Get-Content "$ENV:APPDATA\PsLogLite\config.json" | ConvertFrom-Json | & $ScriptPath) -is [hashtable] | Should -Be $True
+        It "accepts configuration data from JSON and turns it into a Config hashtable" {
+            Switch([System.Environment]::OSVersion.Platform) {
+                "MacOSX" {}     # Match string version
+                [System.PlatformID]::MacOSX {
+                    $JsonContent = Get-Content $(Join-Path -Path "~" -ChildPath "Library${Sep}Application Support${Sep}PsLogLite") | ConvertFrom-Json
+                    Break
+                }
+                "Unix" {}       # Match string version
+                [System.PlatformID]::Unix {
+                    $JsonContent = Get-Content $(Join-Path -Path "~" -ChildPath ".PsLogLite${Sep}config.json".ToLower()) | ConvertFrom-Json
+                    Break
+                }
+                Default {
+                    $JsonContent = Get-Content $(Join-Path -Path $([System.Environment]::GetEnvironmentVariable("APPDATA")) -ChildPath "PsLogLite${Sep}config.json") | ConvertFrom-Json
+                    Break
+                }
+            }
+            $($JsonContent | & $ScriptPath) -is [hashtable] | Should -Be $True
         }
     }
 
