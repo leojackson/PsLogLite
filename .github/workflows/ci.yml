@@ -59,11 +59,13 @@ jobs:
         $Config = [PesterConfiguration]$(Get-Content -Path ".\.github\workflows\pester.json" -Raw | ConvertFrom-Json)
         $Config.CodeCoverage.Enabled = $True
         $Config.CodeCoverage.Path = Get-ChildItem -Path .\$ENV:PROJECT_NAME -Recurse -File -Include '*.ps1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
+        $Config.TestResult.Enabled = $True
+        $Config.TestResult.OutputPath = .\$ENV:PROJECT_NAME.testresult-wps.xml
         Import-Module .\$ENV:PROJECT_NAME
         Invoke-Pester -Configuration $Config
       shell: powershell
     - name: Upload coverage to Codecov
-      if: ${{ runner.os == 'Windows' }}
+      if: ${{ runner.os == 'Windows' && github.ref == 'refs/heads/master' }}
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: bash <(curl -s https://codecov.io/bash)
@@ -74,6 +76,13 @@ jobs:
         name: testresult-${{ runner.os }}
         path: |
           ${{ github.event.repository.name }}.testresult.xml
+    - name: Attach test result XML as artifact (WPS)
+      if: ${{ runner.os == 'Windows' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: testresult-${{ runner.os }}-WPS
+        path: |
+          ${{ github.event.repository.name }}.testresult-wps.xml
     - name: Attach coverage as artifact
       if: ${{ runner.os == 'Windows' }}
       uses: actions/upload-artifact@v2
