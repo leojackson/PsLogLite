@@ -2,10 +2,14 @@
 
 ## Quick Start
 
-Install the [latest release from GitHub](https://github.com/leojackson/PsLogLite/releases), and unzip it into a Module path directory.
+Install the [latest release from PowerShell Gallery](https://www.powershellgallery.com/packages/PsLogLite) by running this command from an elevated PowerShell prompt:
 
-!!! info "Future improvement"
-    We plan to list this module in PowerShell Gallery, after which we will update the installation portion of this page to reflect the change.
+```powershell
+Install-Module PsLogLite -AllowClobber -Force
+```
+
+!!! important
+    __When installing, make sure the `#!powershell -Allow-Clobber` parameter is specified.__ PsLogLite works by overriding (or "clobbering") some built-in functions of PowerShell, so if you try to install this module without the `#!powershell -Allow-Clobber` parameter, `#!powershell Install-Module` will throw an error.
 
 Add this to your PowerShell script:
 
@@ -17,7 +21,7 @@ Import-Module PsLogLite
 
 ## How It Works
 
-PSLogLite works by overriding some built-in cmdlets of the [Microsoft.PowerShell.Utility](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/) with functions that capture the string being written and log it to a file, before passing the string along to the cmdlet in question. This is done by generating a proxy command using the output of the Create method from the System.Management.Automation.ProxyCommand class, wrapping it in a PowerShell function, and adding custom logic before passing the value on to the cmdlet in question.
+PsLogLite works by overriding some built-in cmdlets of the [Microsoft.PowerShell.Utility](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/) with functions that capture the string being written and log it to a file, before passing the string along to the cmdlet in question. This is done by generating a proxy command using the output of the Create method from the System.Management.Automation.ProxyCommand class, wrapping it in a PowerShell function, and adding custom logic before passing the value on to the cmdlet in question.
 
 This is available currently for the following functions:
 
