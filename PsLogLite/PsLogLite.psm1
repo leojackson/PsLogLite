@@ -30,18 +30,15 @@ Switch([System.Environment]::OSVersion.Platform) {
     "MacOSX" {}     # Match string version
     [System.PlatformID]::MacOSX {
         New-Variable -Name "ConfigPath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path "~" -ChildPath "Library/Application Support/$Script:ModuleName")
-        New-Item -Path $Script:ConfigPath -ItemType Directory -Force
         Break
     }
     "Unix" {}       # Match string version
     [System.PlatformID]::Unix {
         New-Variable -Name "ConfigPath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path "~" -ChildPath ".$Script:ModuleName".ToLower())
-        (New-Item -Path $Script:ConfigPath -ItemType Directory -Force).Attributes += "Hidden"
         Break
     }
     Default {
         New-Variable -Name "ConfigPath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path $([System.Environment]::GetEnvironmentVariable("APPDATA")) -ChildPath "$Script:ModuleName")
-        New-Item -Path $Script:ConfigPath -ItemType Directory -Force
         Break
     }
 }
