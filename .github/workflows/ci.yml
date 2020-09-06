@@ -2,7 +2,9 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      - master
+      - release/**
     paths:
       - 'PsLogLite/**.ps1'
       - 'PsLogLite/**.psm1'
@@ -19,29 +21,53 @@ on:
       - 'Tests/**.Tests.ps1'
 
 jobs:
-  pester:
-    runs-on: windows-latest
+  Pester:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest,ubuntu-latest,macos-latest]
+      fail-fast: false
     steps:
-    - uses: actions/checkout@v2
-    - name: Run all Pester tests
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Run all Pester tests in PowerShell Core
       env:
-        RUNNER_TEMP: ${{ runner.temp }}
+        PROJECT_NAME: ${{ github.event.repository.name }}
       run: |
-        Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-        Install-Module Pester -MinimumVersion 5.0.3 -Force -SkipPublisherCheck
-        Import-Module Pester
-        $Config = [PesterConfiguration]::Default
-        $Config.Run.Path = ".\Tests"
-        $Config.Run.Exit = $True
+        Import-Module Pester -MinimumVersion 5.0.3
+        $Config = [PesterConfiguration]$(Get-Content -Path ".\.github\workflows\pester.json" -Raw | ConvertFrom-Json)
+        $Config.TestResult.Enabled = $True
+        Import-Module .\$ENV:PROJECT_NAME
+        Invoke-Pester -Configuration $Config
+      shell: pwsh
+    - name: Run all Pester tests in Windows PowerShell
+      if: ${{ runner.os == 'Windows' }}
+      env:
+        PROJECT_NAME: ${{ github.event.repository.name }}
+      run: |
+        Import-Module Pester -MinimumVersion 5.0.3
+        $Config = [PesterConfiguration]$(Get-Content -Path ".\.github\workflows\pester.json" -Raw | ConvertFrom-Json)
         $Config.CodeCoverage.Enabled = $True
-        $Config.CodeCoverage.Path = Get-ChildItem -Path .\PsLogLite -Recurse -File -Include '*.ps1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
-        $Config.CodeCoverage.OutputPath = ".\PsLogLite.coverage.xml"
-        $Config.Output.Verbosity = "Detailed"
-        Import-Module .\PsLogLite
+        $Config.CodeCoverage.Path = Get-ChildItem -Path .\$ENV:PROJECT_NAME -Recurse -File -Include '*.ps1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
+        Import-Module .\$ENV:PROJECT_NAME
         Invoke-Pester -Configuration $Config
       shell: powershell
     - name: Upload coverage to Codecov
+      if: ${{ runner.os == 'Windows' }}
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: bash <(curl -s https://codecov.io/bash)
       shell: bash
+    - name: Attach test result XML as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: testresult-${{ runner.os }}
+        path: |
+          ${{ github.event.repository.name }}.testresult.xml
+    - name: Attach coverage as artifact
+      if: ${{ runner.os == 'Windows' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage
+        path: |
+          ${{ github.event.repository.name }}.coverage.xml

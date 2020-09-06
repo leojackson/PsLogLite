@@ -1,6 +1,10 @@
 # mkdocs build
 site/
 
+# Test results
+*coverage.xml
+testResults.xml
+
 # Executables, binaries, packages
 *.exe
 *.msi

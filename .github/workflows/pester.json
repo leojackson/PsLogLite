@@ -1,0 +1,18 @@
+{
+    "Run": {
+        "Path": ".\\Tests",
+        "Exit": true
+    },
+    "CodeCoverage": {
+        "OutputPath": ".\\PsLogLite.coverage.xml"
+    },
+    "TestResult": {
+        "OutputPath": ".\\PsLogLite.testresult.xml"
+    },
+    "Should": {
+        "ErrorAction": "Continue"
+    },
+    "Output": {
+        "Verbosity": "Detailed"
+    }
+}
