@@ -23,9 +23,27 @@ New-Variable -Name "LogPipelineMap" -Scope Script -Option Constant -Visibility P
 })
 New-Variable -Name "ModuleName" -Scope Script -Option Constant -Visibility Private -Value ($MyInvocation.MyCommand.Name -split "\.")[0]
 New-Variable -Name "DefaultLogFileName" -Scope Script -Option Constant -Visibility Private -Value "$Script:ModuleName.module.log"
-New-Variable -Name "DefaultLogFilePath" -Scope Script -Option Constant -Visibility Private -Value "$Env:TEMP\$Script:DefaultLogFileName"
+New-Variable -Name "DefaultLogFileParent" -Scope Script -Option Constant -Visibility Private -Value $([IO.Path]::GetTempPath())
+#New-Variable -Name "DefaultLogFilePath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path $Script:DefaultLogFileParent -ChildPath "$Script:DefaultLogFileName")
 New-Variable -Name "DefaultLogLevel" -Scope Script -Option Constant -Visibility Private -Value "Output"
-New-Variable -Name "ConfigFile" -Scope Script -Option Constant -Visibility Private -Value "$ENV:APPDATA\$Script:ModuleName\config.json"
+Switch([System.Environment]::OSVersion.Platform) {
+    [System.PlatformID]::MacOSX {
+        New-Variable -Name "ConfigPath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path "~" -ChildPath "Library/Application Support/$Script:ModuleName")
+        New-Item -Path $Script:ConfigPath -ItemType Directory -Force
+        Break
+    }
+    [System.PlatformID]::Unix {
+        New-Variable -Name "ConfigPath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path "~" -ChildPath ".$Script:ModuleName".ToLower())
+        (New-Item -Path $Script:ConfigPath -ItemType Directory -Force).Attributes += "Hidden"
+        Break
+    }
+    Default {
+        New-Variable -Name "ConfigPath" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path $([System.Environment]::GetEnvironmentVariable("APPDATA")) -ChildPath "$Script:ModuleName")
+        New-Item -Path $Script:ConfigPath -ItemType Directory -Force
+        Break
+    }
+}
+New-Variable -Name "ConfigFile" -Scope Script -Option Constant -Visibility Private -Value $(Join-Path -Path $Script:ConfigPath -ChildPath "config.json")
 
 # If config file hasn't been created,
 If(-not (Test-Path -Path $Script:ConfigFile -PathType Leaf)) { 
@@ -33,16 +51,17 @@ If(-not (Test-Path -Path $Script:ConfigFile -PathType Leaf)) {
     @{
         LogLevel="$Script:DefaultLogLevel"
         LogFileName="$Script:DefaultLogFileName"
-        LogFilePath="$Script:DefaultLogFilePath"
+        LogFileParent="$Script:DefaultLogFileParent"
+#        LogFilePath="$Script:DefaultLogFilePath"
     } | ConvertTo-Json | Out-File -FilePath $Script:ConfigFile -Force
 }
-New-Variable -Name "Config" -Scope Script -Visibility Private -Value $(Get-Content -Raw -Path $Script:ConfigFile | ConvertFrom-Json | & "$PSScriptRoot\Scripts\ConfigImporter.ps1")
+New-Variable -Name "Config" -Scope Script -Visibility Private -Value $(Get-Content -Raw -Path $Script:ConfigFile | ConvertFrom-Json | & $(Join-Path -Path $PSScriptRoot -ChildPath "Scripts\ConfigImporter.ps1"))
 
 #New-Variable -Name "LogFilePath" -Scope Script -Visibility Private -Value $Script:Config.LogFilePath
 #New-Variable -Name "LogLevel" -Scope Script -Visibility Private -Value $Script:Config.LogLevel
 
-$Public = @(Get-ChildItem -Path "$PSScriptRoot\Public" -Filter *.ps1 -Recurse -ErrorAction SilentlyContinue)
-$Private = @(Get-ChildItem -Path "$PSScriptRoot\Private" -Filter *.ps1 -Recurse -ErrorAction SilentlyContinue)
+$Public = @(Get-ChildItem -Path $(Join-Path -Path $PSScriptRoot -ChildPath "Public") -Filter *.ps1 -Recurse -ErrorAction SilentlyContinue)
+$Private = @(Get-ChildItem -Path $(Join-Path -Path $PSScriptRoot -ChildPath "Private") -Filter *.ps1 -Recurse -ErrorAction SilentlyContinue)
 
 # Dot source public/private functions
 $p = 0

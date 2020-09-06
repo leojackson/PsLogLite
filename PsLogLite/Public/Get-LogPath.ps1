@@ -23,7 +23,7 @@ System.String
 param()
 
 Process {
-    Return $Script:Config.LogFilePath
+    $(Join-Path -Path $Script:Config.LogFileParent -ChildPath $Script:Config.LogFileName)
 } # Process
 
 } # Function

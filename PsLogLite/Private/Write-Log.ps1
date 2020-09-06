@@ -77,8 +77,10 @@ param(
 Begin {
     $Date = Get-Date -Format "MM/dd/yyyy HH:mm:ss.fff"
 
+    $LogFilePath = Join-Path -Path $Script:Config.LogFileParent -ChildPath $Script:Config.LogFileName
+
     $OutFileParams = @{
-        FilePath = "$($Script:Config.LogFilePath)"
+        FilePath = $LogFilePath
         Append = $True
         NoClobber = $True
     }
@@ -91,28 +93,29 @@ Begin {
 
     # Get the currently logged on username
     $UserName = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+
 } # Begin
 
 Process {
     If($Level -ge $Script:Config.LogLevel -and $PSCmdlet.ShouldProcess($Message)) {
         Try {
-            If(-not $(Test-Path -Path $Script:Config.LogFilePath)) {
-                New-Item -Path "$($Script:Config.LogFilePath)" -ItemType File -Force | Out-Null
+            If(-not $(Test-Path -Path $LogFilePath)) {
+                New-Item -Path $LogFilePath -ItemType File -Force | Out-Null
             }
             "$Date - $UserName - $Function - $Prefix - $Message" | Out-File @OutFileParams
         }
         Catch [System.UnauthorizedAccessException] {
-            Microsoft.PowerShell.Utility\Write-Warning -Message "Unable to write to log path $($Script:Config.LogFilePath), resetting to default path"
+            Microsoft.PowerShell.Utility\Write-Warning -Message "Unable to write to log path $LogFilePath, resetting to default path"
             Reset-LogPath -Silent   # Setting this to Silent to prevent an endless loop
             Try {
-                If(-not $(Test-Path -Path $Script:Config.LogFilePath)) {
-                    New-Item -Path "$($Script:Config.LogFilePath)" -ItemType File -Force | Out-Null
+                If(-not $(Test-Path -Path $(Get-LogPath))) {
+                    New-Item -Path $(Get-LogPath) -ItemType File -Force | Out-Null
                 }
-                $OutFileParams.FilePath = $Script:Config.LogFilePath
-                "$Date - $Function - $Prefix - $Message" | Out-File @OutFileParams
+                $OutFileParams.FilePath = $(Get-LogPath)
+                "$Date - $UserName - $Function - $Prefix - $Message" | Out-File @OutFileParams
             }
             Catch {
-                Throw "Unable to write log to file $($Script:Config.LogFilePath) after log path reset: $_"
+                Throw "Unable to write log to file $(Get-LogPath) after log path reset: $_"
             }
         }
     }

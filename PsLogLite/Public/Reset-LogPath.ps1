@@ -26,23 +26,24 @@ param(
 
 Process {
     $PreChangePath = Get-LogPath
+    $DefaultLogFilePath = Join-Path -Path $Script:DefaultLogFileParent -ChildPath $Script:DefaultLogFileName
 
     # Do nothing if already the default path
-    If($PreChangePath -eq $Script:DefaultLogFilePath) {
+    If($PreChangePath -eq $DefaultLogFilePath) {
         Return
     }
 
-    If($PSCmdlet.ShouldProcess($Script:DefaultLogFilePath)) {
+    If($PSCmdlet.ShouldProcess($DefaultLogFilePath)) {
         If(-not $Silent.IsPresent) {
             # Writing this before and after, so both log files will have the message
-            Write-Log -Message "Log path reset from $PreChangePath to $($Script:DefaultLogFilePath) (default)" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
+            Write-Log -Message "Log path reset from $PreChangePath to $DefaultLogFilePath (default)" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
         }
 
-        Set-LogPath -Path $Script:DefaultLogFilePath -Silent:$($Silent.IsPresent)
+        Set-LogPath -Path $DefaultLogFilePath -Silent:$($Silent.IsPresent)
 
         If(-not $Silent.IsPresent) {
             # Writing this before and after, so both log files will have the message
-            Write-Log -Message "Log path reset from $PreChangePath to $($Script:DefaultLogFilePath) (default)" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
+            Write-Log -Message "Log path reset from $PreChangePath to $DefaultLogFilePath (default)" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
         }
     }
 } # Process

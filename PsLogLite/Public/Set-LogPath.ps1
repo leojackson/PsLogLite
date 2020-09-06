@@ -33,8 +33,8 @@ param(
 
 Begin {
     # If the path is a filename, prepend it with the %TEMP% directory
-    If([Regex]::Matches($Path, "\\").Count -lt 1) {
-        $Path = Join-Path -Path $Env:TEMP -ChildPath $Path
+    If($(Split-Path -Path $Path -Leaf) -eq $Path) {
+        $Path = Join-Path -Path $Script:Config.LogFileParent -ChildPath $Path
     }
 
     # If the path is a folder, append it with the default log file name
@@ -65,7 +65,8 @@ Process {
             # Writing this before and after, so both log files will have the message
             Write-Log -Message "Log path changed from $PreChangePath to $Path" -Function $('{0}' -f $MyInvocation.MyCommand) -Level 'Meta'
         }
-        $Script:Config.LogFilePath = $Path
+        $Script:Config.LogFileName = Split-Path -Path $Path -Leaf
+        $Script:Config.LogFileParent = Split-Path -Path $Path -Parent
 
         If(-not $Silent.IsPresent) {
             # Writing this before and after, so both log files will have the message

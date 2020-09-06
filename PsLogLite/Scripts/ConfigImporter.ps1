@@ -9,6 +9,7 @@ begin{
     $AcceptedValues = @(
         "LogLevel"
         "LogFileName"
+        "LogFileParent"
         "LogFilePath"
     )
 }

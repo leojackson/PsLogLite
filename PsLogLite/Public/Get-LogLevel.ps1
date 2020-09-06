@@ -23,7 +23,7 @@ PsLogLiteLevel
 param()
 
 Process {
-    Return $Script:Config.LogLevel
+    $Script:Config.LogLevel
 } # Process
 
 } # Function
