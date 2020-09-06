@@ -3,7 +3,7 @@ site/
 
 # Test results
 *coverage.xml
-testResults.xml
+*testresult.xml
 
 # Executables, binaries, packages
 *.exe
