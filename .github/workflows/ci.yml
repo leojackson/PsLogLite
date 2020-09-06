@@ -34,7 +34,12 @@ jobs:
       env:
         PROJECT_NAME: ${{ github.event.repository.name }}
       run: |
-        Import-Module Pester -MinimumVersion 5.0.3
+        Try { Import-Module Pester -MinimumVersion 5.0.3 -ErrorAction Stop }
+        Catch {
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module Pester -MinimumVersion 5.0.3 -Force -SkipPublisherCheck
+          Import-Module Pester -MinimumVersion 5.0.3
+        }
         $Config = [PesterConfiguration]$(Get-Content -Path ".\.github\workflows\pester.json" -Raw | ConvertFrom-Json)
         $Config.TestResult.Enabled = $True
         Import-Module .\$ENV:PROJECT_NAME
@@ -45,7 +50,12 @@ jobs:
       env:
         PROJECT_NAME: ${{ github.event.repository.name }}
       run: |
-        Import-Module Pester -MinimumVersion 5.0.3
+        Try { Import-Module Pester -MinimumVersion 5.0.3 -ErrorAction Stop }
+        Catch {
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module Pester -MinimumVersion 5.0.3 -Force -SkipPublisherCheck
+          Import-Module Pester -MinimumVersion 5.0.3
+        }
         $Config = [PesterConfiguration]$(Get-Content -Path ".\.github\workflows\pester.json" -Raw | ConvertFrom-Json)
         $Config.CodeCoverage.Enabled = $True
         $Config.CodeCoverage.Path = Get-ChildItem -Path .\$ENV:PROJECT_NAME -Recurse -File -Include '*.ps1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
