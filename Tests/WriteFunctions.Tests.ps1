@@ -217,6 +217,6 @@ Describe -Name "Write-* functions" {
     AfterAll {
         Reset-LogPath
         Reset-LogLevel
-#        Remove-Item -Path $TestLogPath -Force -Recurse
+        Remove-Item -Path $TestLogPath -Force -Recurse
     }
 }

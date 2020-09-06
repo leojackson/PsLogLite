@@ -77,7 +77,11 @@ Describe "Support Functions" {
         }
 
         It "Set-LogPath throws when log file exists but is not writeable" {
-            New-Item -Path $(Join-Path -Path $NewDir -ChildPath "ReadOnlyFile.log") -ItemType File -Force | Set-ItemProperty -Name "IsReadOnly" -Value $true
+            $FilePath = $(Join-Path -Path $NewDir -ChildPath "ReadOnlyFile.log")
+            New-Item -Path $FilePath -ItemType File -Force | Set-ItemProperty -Name "IsReadOnly" -Value $true
+            If($IsLinux -or $IsMacOs) {
+                bash -c "chmod -w $FilePath"
+            }
             { Set-LogFile -Path "$NewDir\ReadOnlyFile.log" } | Should -Throw
         }
 
@@ -94,13 +98,11 @@ Describe "Support Functions" {
 
         It "accepts configuration data from JSON and turns it into a Config hashtable" {
             Switch([System.Environment]::OSVersion.Platform) {
-                "MacOSX" {}     # Match string version
-                [System.PlatformID]::MacOSX {
+                "MacOSX" {
                     $JsonContent = Get-Content $(Join-Path -Path "~" -ChildPath "Library${Sep}Application Support${Sep}PsLogLite") -Raw | ConvertFrom-Json
                     Break
                 }
-                "Unix" {}       # Match string version
-                [System.PlatformID]::Unix {
+                "Unix" {
                     $JsonContent = Get-Content $(Join-Path -Path "~" -ChildPath ".PsLogLite${Sep}config.json".ToLower()) -Raw | ConvertFrom-Json
                     Break
                 }
