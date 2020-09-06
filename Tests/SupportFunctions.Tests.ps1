@@ -79,7 +79,7 @@ Describe "Support Functions" {
         It "Set-LogPath throws when log file exists but is not writeable" {
             $FilePath = $(Join-Path -Path $NewDir -ChildPath "ReadOnlyFile.log")
             New-Item -Path $FilePath -ItemType File -Force | Set-ItemProperty -Name "IsReadOnly" -Value $true
-            If(-not $IsWindows) {
+            If($IsLinux -or $IsMacOs) {
                 bash -c "chmod -w $FilePath"
             }
             { Set-LogFile -Path $FilePath } | Should -Throw
