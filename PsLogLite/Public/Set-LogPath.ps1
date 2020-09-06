@@ -51,6 +51,10 @@ Begin {
     If(Test-Path $Path -PathType Leaf) {
         Try {
             [IO.File]::OpenWrite($Path).Close()
+            If($IsLinux -or $IsMacOs) {
+                $mode = ((ls -l $Path) -Split " ")[0]
+                If($mode -notlike "*w*") { Throw }
+            }
         } Catch {
             Throw "Log file exists, and is not writable"
         }
