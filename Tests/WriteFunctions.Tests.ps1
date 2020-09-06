@@ -1,5 +1,5 @@
 BeforeAll {
-    $TestLogPath = "$ENV:Temp\PsLogLite-PesterTests"
+    $TestLogPath = Join-Path -Path $([IO.Path]::GetTempPath()) -ChildPath "PsLogLite-PesterTests"
 }
 
 Describe -Name "Write-* functions" {
@@ -15,7 +15,7 @@ Describe -Name "Write-* functions" {
 
     Context "Write-Debug" {
         BeforeAll {
-            $TestLogFile = "$TestLogPath\Write-Debug.log"
+            $TestLogFile = Join-Path -Path $TestLogPath -ChildPath "Write-Debug.log"
             New-Item -Path $TestLogFile -Force -ItemType File
             Set-LogPath -Path $TestLogFile
         }
@@ -38,7 +38,7 @@ Describe -Name "Write-* functions" {
     
     Context "Write-Error" {
         BeforeAll {
-            $TestLogFile = "$TestLogPath\Write-Error.log"
+            $TestLogFile = Join-Path -Path $TestLogPath -ChildPath "Write-Error.log"
             New-Item -Path $TestLogFile -Force -ItemType File
             Set-LogPath -Path $TestLogFile
         }
@@ -68,7 +68,7 @@ Describe -Name "Write-* functions" {
 
     Context "Write-Host" {
         BeforeAll {
-            $TestLogFile = "$TestLogPath\Write-Host.log"
+            $TestLogFile = Join-Path -Path $TestLogPath -ChildPath "Write-Host.log"
             New-Item -Path $TestLogFile -Force -ItemType File
             Set-LogPath -Path $TestLogFile
         }
@@ -88,7 +88,7 @@ Describe -Name "Write-* functions" {
 
     Context "Write-Information" {
         BeforeAll {
-            $TestLogFile = "$TestLogPath\Write-Information.log"
+            $TestLogFile = Join-Path -Path $TestLogPath -ChildPath "Write-Information.log"
             New-Item -Path $TestLogFile -Force -ItemType File
             Set-LogPath -Path $TestLogFile
         }
@@ -108,7 +108,7 @@ Describe -Name "Write-* functions" {
 
     Context "Write-Output" {
         BeforeAll {
-            $TestLogFile = "$TestLogPath\Write-Output.log"
+            $TestLogFile = Join-Path -Path $TestLogPath -ChildPath "Write-Output.log"
             New-Item -Path $TestLogFile -Force -ItemType File
             Set-LogPath -Path $TestLogFile
         }
@@ -128,7 +128,7 @@ Describe -Name "Write-* functions" {
 
     Context "Write-Verbose" {
         BeforeAll {
-            $TestLogFile = "$TestLogPath\Write-Verbose.log"
+            $TestLogFile = Join-Path -Path $TestLogPath -ChildPath "Write-Verbose.log"
             New-Item -Path $TestLogFile -Force -ItemType File
             Set-LogPath -Path $TestLogFile
         }
@@ -151,7 +151,7 @@ Describe -Name "Write-* functions" {
 
     Context "Write-Warning" {
         BeforeAll {
-            $TestLogFile = "$TestLogPath\Write-Warning.log"
+            $TestLogFile = Join-Path -Path $TestLogPath -ChildPath "Write-Warning.log"
             New-Item -Path $TestLogFile -Force -ItemType File
             Set-LogPath -Path $TestLogFile
         }
@@ -171,7 +171,7 @@ Describe -Name "Write-* functions" {
 
     Context "Write-Log Exception Handling" {
         BeforeAll {
-            $CustomLogFile = "$TestLogPath\ReadOnlyLogTest.log"
+            $CustomLogFile = Join-Path -Path $TestLogPath -ChildPath "ReadOnlyLogTest.log"
             Reset-LogPath -Silent
             $DefaultLogPath = Get-LogPath
         }

@@ -96,16 +96,16 @@ Describe "Support Functions" {
             Switch([System.Environment]::OSVersion.Platform) {
                 "MacOSX" {}     # Match string version
                 [System.PlatformID]::MacOSX {
-                    $JsonContent = Get-Content $(Join-Path -Path "~" -ChildPath "Library${Sep}Application Support${Sep}PsLogLite") | ConvertFrom-Json
+                    $JsonContent = Get-Content $(Join-Path -Path "~" -ChildPath "Library${Sep}Application Support${Sep}PsLogLite") -Raw | ConvertFrom-Json
                     Break
                 }
                 "Unix" {}       # Match string version
                 [System.PlatformID]::Unix {
-                    $JsonContent = Get-Content $(Join-Path -Path "~" -ChildPath ".PsLogLite${Sep}config.json".ToLower()) | ConvertFrom-Json
+                    $JsonContent = Get-Content $(Join-Path -Path "~" -ChildPath ".PsLogLite${Sep}config.json".ToLower()) -Raw | ConvertFrom-Json
                     Break
                 }
                 Default {
-                    $JsonContent = Get-Content $(Join-Path -Path $([System.Environment]::GetEnvironmentVariable("APPDATA")) -ChildPath "PsLogLite${Sep}config.json") | ConvertFrom-Json
+                    $JsonContent = Get-Content $(Join-Path -Path $([System.Environment]::GetEnvironmentVariable("APPDATA")) -ChildPath "PsLogLite${Sep}config.json") -Raw | ConvertFrom-Json
                     Break
                 }
             }
