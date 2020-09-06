@@ -60,7 +60,7 @@ jobs:
         $Config.CodeCoverage.Enabled = $True
         $Config.CodeCoverage.Path = Get-ChildItem -Path .\$ENV:PROJECT_NAME -Recurse -File -Include '*.ps1' -Exclude '*.Tests.ps1' -ErrorAction SilentlyContinue
         $Config.TestResult.Enabled = $True
-        $Config.TestResult.OutputPath = .\$ENV:PROJECT_NAME.testresult-wps.xml
+        $Config.TestResult.OutputPath = ".\$ENV:PROJECT_NAME.testresult-wps.xml"
         Import-Module .\$ENV:PROJECT_NAME
         Invoke-Pester -Configuration $Config
       shell: powershell
