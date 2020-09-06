@@ -92,7 +92,11 @@ Begin {
     $Prefix = $Script:LogPrefix.$Level
 
     # Get the currently logged on username
-    $UserName = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+    If(-not ([string]::IsNullOrEmpty([System.Environment]::UserDomainName))) {
+        $UserName = @([System.Environment]::UserDomainName,[System.Environment]::UserName) -join "\"
+    } Else {
+        $UserName = [System.Environment]::UserName
+    }
 
 } # Begin
 
