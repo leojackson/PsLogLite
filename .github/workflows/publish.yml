@@ -34,10 +34,5 @@ jobs:
         echo RELEASE_VERSION=${{ github.event.release.tag_name }} >> $GITHUB_ENV
       shell: pwsh
     - name: Publish package to PowerShell Gallery
-      # env:
-      #   PSGALLERY_APIKEY: ${{ secrets.PSGALLERY_APIKEY }}
-      #   PROJECT_NAME: ${{ github.event.repository.name }}
-      #   RELEASE_NOTES: ${{ github.event.release.body }}
-      #   RELEASE_VERSION: ${{ github.event.release.tag_name }}
       run: .github\workflows\psgallery-publish.ps1
       shell: pwsh
