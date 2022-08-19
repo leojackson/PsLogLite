@@ -28,7 +28,7 @@ jobs:
         versionSpec: '0.10.x'
     - name: Set environment variables
       run: |
-        Add-Content -Path $env:GITHUB_ENV -Value "PROJECT_NAME=${{ github.event.repository.name }}""
+        Add-Content -Path $env:GITHUB_ENV -Value "PROJECT_NAME=${{ github.event.repository.name }}"
         Add-Content -Path $env:GITHUB_ENV -Value "RELEASE_VERSION=${{ steps.gitversion.outputs.semVer }}"
       shell: powershell
     - name: Create artifact
