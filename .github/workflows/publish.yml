@@ -28,10 +28,10 @@ jobs:
       uses: actions/checkout@v2
     - name: Set environment variables
       run: |
-        echo PROJECT_NAME=${{ github.event.repository.name }} >> $GITHUB_ENV
-        echo PROJECT_NAME=${{ github.event.repository.name }} >> $GITHUB_ENV
-        echo RELEASE_NOTES=${{ github.event.release.body }} >> $GITHUB_ENV
-        echo RELEASE_VERSION=${{ github.event.release.tag_name }} >> $GITHUB_ENV
+        Add-Content -Path $env:GITHUB_ENV -Value "PROJECT_NAME=${{ github.event.repository.name }}"
+        Add-Content -Path $env:GITHUB_ENV -Value "PROJECT_NAME=${{ github.event.repository.name }}"
+        Add-Content -Path $env:GITHUB_ENV -Value "RELEASE_NOTES=${{ github.event.release.body }}"
+        Add-Content -Path $env:GITHUB_ENV -Value "RELEASE_VERSION=${{ github.event.release.tag_name }}"
       shell: pwsh
     - name: Publish package to PowerShell Gallery
       run: .github\workflows\psgallery-publish.ps1

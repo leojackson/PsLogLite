@@ -28,8 +28,8 @@ jobs:
         versionSpec: '0.10.x'
     - name: Set environment variables
       run: |
-        echo PROJECT_NAME=${{ github.event.repository.name }} >> $GITHUB_ENV
-        echo RELEASE_VERSION=${{ steps.gitversion.outputs.semVer }} >> $GITHUB_ENV
+        Add-Content -Path $env:GITHUB_ENV -Value "PROJECT_NAME=${{ github.event.repository.name }}""
+        Add-Content -Path $env:GITHUB_ENV -Value "RELEASE_VERSION=${{ steps.gitversion.outputs.semVer }}"
       shell: powershell
     - name: Create artifact
       run: .github\workflows\create-artifact.ps1
